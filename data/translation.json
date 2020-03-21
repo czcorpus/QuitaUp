@@ -1,0 +1,7 @@
+{
+  "cultural_date_format": "%d-%m-%Y",
+  "languages": ["dummy", "cs", "en"],
+  "translation": [
+    {"dummy": "title", "cs": "Quita+", "en": "Quita+"}
+    ]
+}
