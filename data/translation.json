@@ -2,6 +2,17 @@
   "cultural_date_format": "%d-%m-%Y",
   "languages": ["dummy", "cs", "en"],
   "translation": [
-    {"dummy": "title", "cs": "Quita+", "en": "Quita+"}
+    {"dummy": "title", "cs": "Quita+", "en": "Quita+"},
+    {"dummy": "fileinput", "cs": "Vyberte soubor", "en": "Choose a file"},
+    {"dummy": "fileinputbutton", "cs": "Prohlížet", "en": "Browse"},
+    {"dummy": "fileinputph", "cs": "textový soubor (txt)", "en": "text file (txt)"},
+    {"dummy": "langsel", "cs": "Jazyk", "en": "Language"},
+    {"dummy": "cs", "cs": "čeština", "en": "Czech"},
+    {"dummy": "en", "cs": "angličtina", "en": "English"},
+    {"dummy": "preview", "cs": "Náhled", "en": "Preview"},
+    {"dummy": "textsel", "cs": "Výběr souborů", "en": "Choose a file"},
+    {"dummy": "previewType", "cs": "Formát náhledu", "en": "Preview format"},
+    {"dummy": "orig", "cs": "původní", "en": "original"},
+    {"dummy": "vert", "cs": "vertikála", "en": "vertical"}
     ]
 }

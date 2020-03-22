@@ -31,7 +31,7 @@ a:hover {
 }
 
 /* navigation */
-.nav-pills > li.active > a:focus {
+/*.nav-pills > li.active > a:focus {
   background-color: #009ee0;
 }
 
@@ -41,7 +41,7 @@ a:hover {
 
 .nav-pills > li.active > a {
   background-color: #009ee0;
-}
+}*/
 
 /* sliders */
 .irs .irs-bar {

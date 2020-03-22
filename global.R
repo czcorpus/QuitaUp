@@ -14,4 +14,7 @@ appVer = c("3/2020" = "0.01")
 #bugReportUrl <- "https://podpora.korpus.cz/projects/calc/issues/new"
 #enableBookmarking(store = "url")
 
-
+languages = c("cs", "en")
+udModelDir = "data/udmodels/"
+udModels = c("cs" = "czech-cltt-ud-2.4-190531.udpipe",
+             "en" = "english-ewt-ud-2.4-190531.udpipe")
