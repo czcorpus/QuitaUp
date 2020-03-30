@@ -13,6 +13,23 @@
     {"dummy": "textsel", "cs": "Výběr souborů", "en": "Choose a file"},
     {"dummy": "previewType", "cs": "Formát náhledu", "en": "Preview format"},
     {"dummy": "orig", "cs": "původní", "en": "original"},
-    {"dummy": "vert", "cs": "vertikála", "en": "vertical"}
+    {"dummy": "vert", "cs": "vertikála", "en": "vertical"},
+    {"dummy": "uploadedfiles", "cs": "Přehled nahraných souborů", "en": "Uploaded files"},
+    {"dummy": "filename", "cs": "Název souboru", "en": "File name"},
+    {"dummy": "filesize", "cs": "Velikost", "en": "Size"},
+    {"dummy": "filetype", "cs": "Typ", "en": "MIME type"},
+    
+    {"dummy": "indices", "cs": "Indexy", "en": "Indices"},
+    {"dummy": "indextext", "cs": "Indexy pro jednotlivé texty", "en": "Indices of individual texts"},
+    {"dummy": "tokens", "cs": "Tokeny", "en": "Tokens"},
+    {"dummy": "types.word.cs", "cs": "Typy (tvary)", "en": "Types (word forms)"},
+    {"dummy": "types.word.ci", "cs": "Typy (lower-case tvary)", "en": "Types (lower-casee word forms)"},
+    {"dummy": "types.lemma", "cs": "Typy (lemmata)", "en": "Types (lemmas)"},
+    {"dummy": "index", "cs": "Index", "en": "Index"},
+    {"dummy": "value", "cs": "Hodnota", "en": "Value"},
+    
+    {"dummy": "vertprogress", "cs": "Provádím morfologickou analýzu", "en": "Performing morfological tagging"},
+    {"dummy": "Hotovo", "cs": "Hotovo", "en": "Done"},
+    {"dummy": "failedtoload", "cs": "Nepodařilo se načíst soubor:", "en": "Failed to load:"}
     ]
 }

@@ -1,4 +1,7 @@
 packrat/lib*/
 .Rproj.user
+.Rhistory
+.RData
 packrat/src
 access.log
+zkouseni.R

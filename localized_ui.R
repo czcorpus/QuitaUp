@@ -8,7 +8,7 @@ localizedUI <- function(i18n) {
   
   fluidPage(
     sidebarLayout(
-      sidebarPanel(
+      sidebarPanel(width=3,
         fileInput("file", i18n$t("fileinput"), multiple = TRUE, 
                   buttonLabel = i18n$t("fileinputbutton"), placeholder = i18n$t("fileinputph")),
         selectInput("langsel", i18n$t("langsel"), 
@@ -19,13 +19,24 @@ localizedUI <- function(i18n) {
                     }
                   )
       ),
-      mainPanel(
+      mainPanel(width=9,
         tabsetPanel(
           tabPanel(i18n$t("preview"), value = "preview",
-              uiOutput("textSelector"),
-              uiOutput("typeSwitch"),
-              verbatimTextOutput("textViewer")
-          )
+            h3(i18n$t("uploadedfiles")),
+            tableOutput("filesOverview"),
+            radioButtons("previewType", i18n$t("previewType"), inline=T,
+              choices = {
+                choices = c(1,2)
+                names(choices) = sapply(c("orig", "vert"), i18n$t)
+                choices
+                }),
+            uiOutput("textPanelsPreview")
+          ),
+          tabPanel(
+            i18n$t("indices"), value = "indices",
+            h3(i18n$t("indextext")),
+            uiOutput("textPanelsIndices")
+            )
         )
       )
     )
