@@ -20,6 +20,7 @@ shinyServer(function(input, output, session) {
   
   textCounts <- reactiveValues(valid = 0, all = 0)
   
+  #getOriginals <- eventReactive(input$Go,{
   getOriginals <- reactive({
     req(input$file)
     texts <- list(language = input$langsel)
@@ -135,16 +136,64 @@ shinyServer(function(input, output, session) {
     return(resultsTable)
   }
   
-  getIndices <- reactive({
+  adjVertical <- reactive({
+    req(input$file, input$langsel, input$unit)
     vertical <- getVertical()
+    # trim pucntuation
+    adj <- lapply(vertical, function (x) dplyr::filter(x, upos != "PUNCT"))
+    # create form column
+    if (input$unit == "lc") {
+      adj <- lapply(adj, function (x) { x$form <- stringr::str_to_lower(x$token, locale = input$langsel); return(x) } )
+    } else if (input$unit == "lemma") {
+      adj <- lapply(adj, function (x) { x$form <- x$lemma; return(x) } )
+    } else {
+      adj <- lapply(adj, function (x) { x$form <- x$token; return(x) } )
+    }
+    return(adj)
+  })
+  
+  getIndices <- reactive({
+    req(input$file, input$unit)
+    # trim punctuation, create form column
+    vertical <- adjVertical()
+    #tokens
     results = lapply(vertical, function (x) data.frame("idx" = "tokens", "val" = nrow(x), stringsAsFactors = F))
-    types <- sapply(vertical, function (x) length(table(x$token)))
-    results <- addIndex(results, types, "types.word.cs")
-    types <- sapply(vertical, function (x) length(table(tolower(x$token))) )
-    results <- addIndex(results, types, "types.word.ci")
-    types <- sapply(vertical, function (x) length(table(x$lemma)) )
-    results <- addIndex(results, types, "types.lemma")
-    
+    #types
+    types <- sapply(vertical, function (x) length(table(x$form)))
+    results <- addIndex(results, types, "types")
+    # types <- sapply(vertical, function (x) length(table(tolower(x$token))) )
+    # results <- addIndex(results, types, "types.word.ci")
+    # types <- sapply(vertical, function (x) length(table(x$lemma)) )
+    # results <- addIndex(results, types, "types.lemma")
+    #ttr
+    ttr <- sapply(results, function (x) x[ x$idx == "types", ]$val / x[ x$idx == "tokens", ]$val)
+    results <- addIndex(results, ttr, "ttr")
+    # ttr <- sapply(results, function (x) x[ x$idx == "types.word.ci", ]$val / x[ x$idx == "tokens", ]$val)
+    # results <- addIndex(results, ttr, "ttr.word.ci")
+    # ttr <- sapply(results, function (x) x[ x$idx == "types.lemma", ]$val / x[ x$idx == "tokens", ]$val)
+    # results <- addIndex(results, ttr, "ttr.lemma")
+    #hpoint
+    hp <- sapply(vertical, function (x) hpoint(x, attr = "form"))
+    results <- addIndex(results, hp, "hpoint")
+    #hapax
+    hap <- sapply(vertical, function (x) sum(table(x$form) == 1) )
+    results <- addIndex(results, hap, "hapax")
+    # hap <- sapply(vertical, function (x) sum(table(tolower(x$lemma)) == 1) )
+    # results <- addIndex(results, hap, "hapax.word.ci")
+    # hap <- sapply(vertical, function (x) sum(table(x$lemma) == 1) )
+    # results <- addIndex(results, hap, "hapax.lemma")
+    # hapax-token ratio
+    hl <- sapply(results, function (x) x[ x$idx == "hapax", ]$val / x[ x$idx == "tokens", ]$val)
+    results <- addIndex(results, hl, "hl")
+    # hl <- sapply(results, function (x) x[ x$idx == "hapax.word.ci", ]$val / x[ x$idx == "tokens", ]$val)
+    # results <- addIndex(results, hl, "hl.word.ci")
+    # hl <- sapply(results, function (x) x[ x$idx == "hapax.lemma", ]$val / x[ x$idx == "tokens", ]$val)
+    # results <- addIndex(results, hl, "hl.lemma")
+    # entropy
+    entro <- sapply(vertical, function (x) countEntropy(x, attr = "form"))
+    results <- addIndex(results, entro[1,], "entropy")
+    results <- addIndex(results, entro[2,], "varH")
+    browser()
     return(results)
   })
   

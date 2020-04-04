@@ -9,16 +9,24 @@ localizedUI <- function(i18n) {
   fluidPage(
     sidebarLayout(
       sidebarPanel(width=3,
-        fileInput("file", i18n$t("fileinput"), multiple = TRUE, 
-                  buttonLabel = i18n$t("fileinputbutton"), placeholder = i18n$t("fileinputph")),
-        selectInput("langsel", i18n$t("langsel"), 
-                    choices = {
-                      choices = languages
-                      names(choices) = sapply(languages, i18n$t)
-                      choices
-                    }
-                  )
-      ),
+        fileInput("file", i18n$t("fileinput"), multiple = TRUE,
+          buttonLabel = i18n$t("fileinputbutton"), placeholder = i18n$t("fileinputph")),
+        selectInput("langsel", i18n$t("langsel"),
+          choices = {
+            choices = languages
+            names(choices) = sapply(languages, i18n$t)
+            choices
+            }
+          ),
+        selectInput("unit", i18n$t("units"),
+          choices = {
+            choices = units_available
+            names(choices) = sapply(units_available, i18n$t)
+            choices
+            }
+          )
+        #actionButton("Go", i18n$t("go"))
+        ),
       mainPanel(width=9,
         tabsetPanel(
           tabPanel(i18n$t("preview"), value = "preview",
@@ -32,8 +40,7 @@ localizedUI <- function(i18n) {
                 }),
             uiOutput("textPanelsPreview")
           ),
-          tabPanel(
-            i18n$t("indices"), value = "indices",
+          tabPanel(i18n$t("indices"), value = "indices",
             h3(i18n$t("indextext")),
             uiOutput("textPanelsIndices")
             )

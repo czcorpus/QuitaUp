@@ -15,6 +15,7 @@ appVer = c("3/2020" = "0.01")
 #enableBookmarking(store = "url")
 
 languages = c("cs", "en")
+units_available = c("word", "lc", "lemma")
 udModelDir = "data/udmodels/"
 udModels = c("cs" = "czech-pdt-ud-2.4-190531.udpipe",
              "en" = "english-ewt-ud-2.4-190531.udpipe")
@@ -61,4 +62,33 @@ addIndex <- function(mylist, myvector, myname) {
     )
   }
   return(mylist)
+}
+
+# =====
+
+hpoint <- function(df, attr = "token") {
+  attr <- as.name(attr)
+  tmp <- filter(df, upos != "PUNCT") %>% group_by(!!attr) %>% count(name = "fq") %>%
+    arrange(desc(fq)) %>% ungroup() %>% mutate(rank = seq(1, nrow(.)))
+  if (nrow(filter(tmp, fq == rank)) > 0) {
+    h <- filter(tmp, fq == rank) %>% slice(1) %>% pull(fq)
+  } else {
+    f1 <- filter(tmp, fq > rank) %>% arrange(fq) %>% select(-!!attr) %>% slice(1) %>% pull(fq)
+    r1 <- filter(tmp, fq > rank) %>% arrange(fq) %>% select(-!!attr) %>% slice(1) %>% pull(rank)
+    f2 <- filter(tmp, fq < rank) %>% select(-!!attr) %>% slice(1) %>% pull(fq)
+    r2 <- filter(tmp, fq < rank) %>% select(-!!attr) %>% slice(1) %>% pull(rank)
+    h <- (f1 * r2 - f2 * r1) / (r2 - r1 + f1 - f2)
+  }
+  return(h)
+}
+
+# =====
+
+countEntropy <- function(df, attr = "token") {
+  attr <- as.name(attr)
+  fqdist <- filter(df, upos != "PUNCT") %>% group_by(!!attr) %>% count(name = "fq")
+  N <- sum(fqdist$fq)
+  H <- log2(N) - (1/N) * sum(fqdist$fq * log2(fqdist$fq))
+  varH <- (1/N) * (sum(fqdist$fq/N * (log2(fqdist$fq/N)^2)) - H^2)
+  return(c(H, varH))
 }
