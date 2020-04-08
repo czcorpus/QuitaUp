@@ -5,6 +5,7 @@ library(shiny.i18n)
 library(shinyCNC)
 library(readtext)
 library(udpipe)
+library(stringr)
 source("localized_ui.R")
 
 shinyServer(function(input, output, session) {
@@ -78,19 +79,30 @@ shinyServer(function(input, output, session) {
   output$textPanelsPreview <- renderUI({
     req(input$file, input$previewType)
     texts <- getOriginals()
-    if (input$previewType == 1) { # view original files
-      lapply(1:length(texts$names), function(i) output[[texts$names[i]]] <- renderText(prepareTextPreview(texts$originals[[i]])))
-      panels <- mapply(function(name, id) tabPanel(name, textOutput(id)),
-                       texts$shortnames, texts$names,
-                       SIMPLIFY = FALSE, USE.NAMES = FALSE)
-    } else { # view vertical
-      vertical <- getVertical()
-      lapply(1:length(texts$names), function(i) output[[texts$names[i]]] <- renderTable( prepareVerticalPreview(vertical[[i]]) ))
-      panels <- mapply(function(name, id) tabPanel(name, tableOutput(id)),
-                       texts$shortnames, texts$names,
-                       SIMPLIFY = FALSE, USE.NAMES = FALSE)
+    if (nrow(input$file) == 1) {
+      if (input$previewType == 1) { # view original files
+        HTML(prepareTextPreview(texts$originals[[1]]))
+      } else { # view vertical
+        vertical <- getVertical()
+        list(
+          output[[texts$names[1]]] <- renderTable(prepareVerticalPreview(vertical[[1]]))
+        )
+      }
+    } else {
+      if (input$previewType == 1) { # view original files
+        lapply(1:length(texts$names), function(i) output[[texts$names[i]]] <- renderText(prepareTextPreview(texts$originals[[i]])))
+        panels <- mapply(function(name, id) tabPanel(name, htmlOutput(id)),
+                         texts$shortnames, texts$names,
+                         SIMPLIFY = FALSE, USE.NAMES = FALSE)
+      } else { # view vertical
+        vertical <- getVertical()
+        lapply(1:length(texts$names), function(i) output[[texts$names[i]]] <- renderTable( prepareVerticalPreview(vertical[[i]]) ))
+        panels <- mapply(function(name, id) tabPanel(name, tableOutput(id)),
+                         texts$shortnames, texts$names,
+                         SIMPLIFY = FALSE, USE.NAMES = FALSE)
+      }
+      do.call(navlistPanel, c(list(id = "textSelectorPanel", well=F, widths=c(2,7)), panels) )
     }
-    do.call(navlistPanel, c(list(id = "textSelectorPanel", well=F, widths=c(2,7)), panels) )
   })
   
   observeEvent(input$previewType, {
@@ -99,10 +111,11 @@ shinyServer(function(input, output, session) {
   })
   
   prepareTextPreview <- function(charvector) {
+    charvector <- stringr::str_replace_all(charvector, '\n', '<br/>')
     if (nchar(charvector) > maxCharTextPreview) {
-      paste(substr(charvector, 1, maxCharTextPreview), "...")
+      paste0("<pre class='textpreview'>", substr(charvector, 1, maxCharTextPreview), "...</pre>")
     } else {
-      charvector
+      paste0("<pre class='textpreview'>", charvector, "</pre>")
     }
   }
   
@@ -115,32 +128,41 @@ shinyServer(function(input, output, session) {
   output$textPanelsIndices <- renderUI({
     req(input$file, input$previewType)
     texts <- getOriginals()
+    ids = paste0("idx", texts$names)
+    if (nrow(input$file) == 1) {
+      list(
+        output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3)
+      )
+    } else {
+      lapply(1:length(texts$names), function(i) {
+        #ids = paste0("idx", texts$names)
+        output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
+      })
+      panels <- mapply(function(name, id) tabPanel(name, tableOutput(id)),
+                       texts$shortnames, paste0("idx", texts$names),
+                       SIMPLIFY = FALSE, USE.NAMES = FALSE)
+      do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,7)), panels) )
+    }
     
-    lapply(1:length(texts$names), function(i) {
-      ids = paste0("idx", texts$names)
-      output[[ ids[i] ]] <- renderTable(getIdxTable(i))
-    })
-    
-    panels <- mapply(function(name, id) tabPanel(name, tableOutput(id)),
-                     texts$shortnames, paste0("idx", texts$names),
-                     SIMPLIFY = FALSE, USE.NAMES = FALSE)
-    
-    do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,7)), panels) )
   })
   
   getIdxTable <- function(nText) {
     results <- getIndices()
     resultsTable <- results[[nText]]
-    resultsTable$idx <- i18n$t(resultsTable$idx)
-    colnames(resultsTable) <- i18n$t(colnames(resultsTable))
+    resultsTable$idx <- sapply(resultsTable$idx, i18n$t)
+    colnames(resultsTable) <- sapply(colnames(resultsTable), i18n$t)
     return(resultsTable)
   }
   
   adjVertical <- reactive({
-    req(input$file, input$langsel, input$unit)
+    req(input$file, input$langsel, input$unit, input$punct)
     vertical <- getVertical()
     # trim pucntuation
-    adj <- lapply(vertical, function (x) dplyr::filter(x, upos != "PUNCT"))
+    if (input$punct == 1) {
+      adj <- lapply(vertical, function (x) dplyr::filter(x, upos != "PUNCT"))
+    } else {
+      adj <- vertical
+    }
     # create form column
     if (input$unit == "lc") {
       adj <- lapply(adj, function (x) { x$form <- stringr::str_to_lower(x$token, locale = input$langsel); return(x) } )
@@ -154,46 +176,57 @@ shinyServer(function(input, output, session) {
   
   getIndices <- reactive({
     req(input$file, input$unit)
-    # trim punctuation, create form column
+    # trim punctuation?, create form column
     vertical <- adjVertical()
     #tokens
     results = lapply(vertical, function (x) data.frame("idx" = "tokens", "val" = nrow(x), stringsAsFactors = F))
     #types
     types <- sapply(vertical, function (x) length(table(x$form)))
     results <- addIndex(results, types, "types")
-    # types <- sapply(vertical, function (x) length(table(tolower(x$token))) )
-    # results <- addIndex(results, types, "types.word.ci")
-    # types <- sapply(vertical, function (x) length(table(x$lemma)) )
-    # results <- addIndex(results, types, "types.lemma")
     #ttr
     ttr <- sapply(results, function (x) x[ x$idx == "types", ]$val / x[ x$idx == "tokens", ]$val)
     results <- addIndex(results, ttr, "ttr")
-    # ttr <- sapply(results, function (x) x[ x$idx == "types.word.ci", ]$val / x[ x$idx == "tokens", ]$val)
-    # results <- addIndex(results, ttr, "ttr.word.ci")
-    # ttr <- sapply(results, function (x) x[ x$idx == "types.lemma", ]$val / x[ x$idx == "tokens", ]$val)
-    # results <- addIndex(results, ttr, "ttr.lemma")
     #hpoint
+    # form + upos? rank or adjRank?
     hp <- sapply(vertical, function (x) hpoint(x, attr = "form"))
     results <- addIndex(results, hp, "hpoint")
     #hapax
     hap <- sapply(vertical, function (x) sum(table(x$form) == 1) )
     results <- addIndex(results, hap, "hapax")
-    # hap <- sapply(vertical, function (x) sum(table(tolower(x$lemma)) == 1) )
-    # results <- addIndex(results, hap, "hapax.word.ci")
-    # hap <- sapply(vertical, function (x) sum(table(x$lemma) == 1) )
-    # results <- addIndex(results, hap, "hapax.lemma")
     # hapax-token ratio
     hl <- sapply(results, function (x) x[ x$idx == "hapax", ]$val / x[ x$idx == "tokens", ]$val)
     results <- addIndex(results, hl, "hl")
-    # hl <- sapply(results, function (x) x[ x$idx == "hapax.word.ci", ]$val / x[ x$idx == "tokens", ]$val)
-    # results <- addIndex(results, hl, "hl.word.ci")
-    # hl <- sapply(results, function (x) x[ x$idx == "hapax.lemma", ]$val / x[ x$idx == "tokens", ]$val)
-    # results <- addIndex(results, hl, "hl.lemma")
     # entropy
     entro <- sapply(vertical, function (x) countEntropy(x, attr = "form"))
     results <- addIndex(results, entro[1,], "entropy")
-    results <- addIndex(results, entro[2,], "varH")
-    browser()
+    #results <- addIndex(results, entro[2,], "varH")
+    #VD - verb distances
+    # specific verbTag for each language?
+    vd <- sapply(vertical, function (x) verbDistance(x))
+    results <- addIndex(results, vd, "vdist")
+    # activity and descriptivity
+    # specific adjTag for each language?
+    q <- sapply(vertical, function (x) countActivity(x))
+    results <- addIndex(results, q, "activity")
+    results <- addIndex(results, 1-q, "descriptivity")
+    # average token length
+    # what is a token and what is a character? language specific?
+    atl <- sapply(vertical, function (x) countATL(x, attr = "form"))
+    results <- addIndex(results, atl, "atl")
+    # TC
+    # definition of autosemantics
+    tc <- mapply(function (x, y) countTC(x, h = y, attr = "form"),
+                 vertical, hp)
+    results <- addIndex(results, tc, "tc")
+    # Secondary TC
+    stc <- mapply(function (x, y) countTC(x, h = 2*y, attr = "form"),
+                  vertical, hp)
+    results <- addIndex(results, stc, "stc")
+    # MATTR
+    # size of a windown L?
+    ma <- sapply(vertical, function (x) mattr(x, attr = "form", L = 100))
+    results <- addIndex(results, ma, "mattr")
+    
     return(results)
   })
   

@@ -10,7 +10,7 @@ localizedUI <- function(i18n) {
     sidebarLayout(
       sidebarPanel(width=3,
         fileInput("file", i18n$t("fileinput"), multiple = TRUE,
-          buttonLabel = i18n$t("fileinputbutton"), placeholder = i18n$t("fileinputph")),
+          buttonLabel = i18n$t("fileinputbut"), placeholder = i18n$t("fileinputph")),
         selectInput("langsel", i18n$t("langsel"),
           choices = {
             choices = languages
@@ -24,6 +24,13 @@ localizedUI <- function(i18n) {
             names(choices) = sapply(units_available, i18n$t)
             choices
             }
+          ),
+        radioButtons("punct", i18n$t("punct"), selected = 1, inline = T,
+          choices = {
+            choices = c(0,1)
+            names(choices) = sapply(c("no", "yes"), i18n$t)
+            choices
+          }
           )
         #actionButton("Go", i18n$t("go"))
         ),
@@ -46,7 +53,13 @@ localizedUI <- function(i18n) {
             )
         )
       )
+      
     )
+  ),
+  tags$hr(),
+  tags$p(
+    tags$small( appName, appVer[1], HTML("&copy; <a href='https://www.korpus.cz'>"), i18n$t("cnc"), HTML("</a>"), 
+                HTML("Václav Cvrček"), names(appVer[1]), HTML(paste0("&bull; <a href='"), bugReportUrl, "' target='_blank'>"), i18n$t("error"), HTML("</a>") )
   )
   ))
 }
