@@ -223,6 +223,12 @@ Version: 0.4.0
 Hash: 0647eb9c0cc6a2f9079ee706824861e8
 Requires: Rcpp, digest, rlang
 
+Package: htmlwidgets
+Source: CRAN
+Version: 1.5.1
+Hash: 20e5cc02b795afc7322836c947b5aab2
+Requires: htmltools, jsonlite, yaml
+
 Package: httpuv
 Source: CRAN
 Version: 1.5.2
@@ -516,9 +522,15 @@ Requires: htmltools, shiny
 
 Package: shinyCNC
 Source: CNCRAN
-Version: 0.1.1
-Hash: 7caa9b4cfca133f632d92ead1b79041b
+Version: 0.1.2
+Hash: 7cd94f891ab3773d5fc04928db49370a
 Requires: httr, jsonlite, shiny
+
+Package: shinybusy
+Source: CRAN
+Version: 0.2.0
+Hash: 95b7d3c83bfbbcc97caaedac1beac0c2
+Requires: htmltools, htmlwidgets, jsonlite, shiny
 
 Package: shinythemes
 Source: CRAN

@@ -21,7 +21,6 @@ shinyServer(function(input, output, session) {
   
   textCounts <- reactiveValues(valid = 0, all = 0)
   
-  #getOriginals <- eventReactive(input$Go,{
   getOriginals <- reactive({
     req(input$file)
     texts <- list(language = input$langsel)
@@ -48,23 +47,47 @@ shinyServer(function(input, output, session) {
     texts
   })
   
+  # getVertical <- reactive({
+  #   req(input$file, input$langsel)
+  #   withProgress(message = i18n$t("vertprogress"), value = 0, {
+  #     texts <- getOriginals()
+  #     timestamp()
+  #     vert <- list()
+  #     prgTot = 2 * length(texts$originals) + 1
+  #     prgInc = 1
+  #     incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
+  #     for (i in 1:length(texts$originals)) {
+  #       udout <- udpipe(x = texts$originals[i], object = paste0(udModelDir, udModels[input$langsel]), parallel.cores = udParallel.cores)
+  #       prgInc = prgInc + 1
+  #       incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
+  #       #vert[[i]] <- retokenizeUDpipe(udout)
+  #       vert[[i]] <- retokenizeUDpipeDavid(udout)
+  #       prgInc = prgInc + 1
+  #       incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
+  #     }
+  #   })
+  #   timestamp()
+  #   vert
+  # })
+  
   getVertical <- reactive({
     req(input$file, input$langsel)
-    withProgress(message = i18n$t("vertprogress"), value = 0, {
-      texts <- getOriginals()
-      vert <- list()
-      prgTot = 2 * length(texts$originals) + 1
-      prgInc = 1
-      incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-      for (i in 1:length(texts$originals)) {
-        udout <- udpipe(x = texts$originals[i], object = paste0(udModelDir, udModels[input$langsel]), parallel.cores = udParallel.cores)
-        prgInc = prgInc + 1
-        incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-        vert[[i]] <- retokenizeUDpipe(udout)
-        prgInc = prgInc + 1
-        incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-      }
-    })
+    #shinybusy::show_modal_spinner(text = i18n$t("vertprogress"), spin = "orbit", color = "#009ee0", session)
+    shinybusy::show_modal_gif(src = "rotujici_lupa_mensi_V2.gif", text = i18n$t("vertprogress"), height = "42px", width = "34px")
+    texts <- getOriginals()
+    timestamp()
+    texts.df <- data.frame(doc_id = texts$names, text = texts$originals)
+    udout <- udpipe(x = texts.df, object = paste0(udModelDir, udModels[input$langsel]), parallel.cores = udParallel.cores, parser = "none")
+    # if (lang_retokenize[input$langsel]) {
+    #   udout.cor <- retokenizeUDpipe(udout)
+    #   vert <- split(udout.cor, f = udout.cor$doc_id)
+    # } else {
+    #   vert <- split(udout, f = udout$doc_id)
+    # }
+    vert <- split(udout, f = udout$doc_id)
+    #shinybusy::remove_modal_spinner()
+    shinybusy::remove_modal_gif()
+    timestamp()
     vert
   })
   
@@ -120,7 +143,7 @@ shinyServer(function(input, output, session) {
   }
   
   prepareVerticalPreview <- function(df) {
-      select(df, sentence_id, token, lemma, upos, xpos, dep_rel) %>% head(n = maxLineVerticalPreview)
+      select(df, sentence_id, token, lemma, upos, xpos) %>% head(n = maxLineVerticalPreview)
   }
   
   # =======================================================================================================
@@ -155,10 +178,10 @@ shinyServer(function(input, output, session) {
   }
   
   adjVertical <- reactive({
-    req(input$file, input$langsel, input$unit, input$punct)
+    req(input$file, input$langsel, input$unit)
     vertical <- getVertical()
     # trim pucntuation
-    if (input$punct == 1) {
+    if (input$punct == TRUE) {
       adj <- lapply(vertical, function (x) dplyr::filter(x, upos != "PUNCT"))
     } else {
       adj <- vertical
@@ -206,7 +229,7 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, vd, "vdist")
     # activity and descriptivity
     # specific adjTag for each language?
-    q <- sapply(vertical, function (x) countActivity(x))
+    q <- sapply(vertical, function (x) countActivity(x, verbTag = c("VERB")))
     results <- addIndex(results, q, "activity")
     results <- addIndex(results, 1-q, "descriptivity")
     # average token length
