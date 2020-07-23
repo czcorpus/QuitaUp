@@ -16,7 +16,7 @@ localizedUI <- function(i18n) {
               names(choices) = sapply(languages, i18n$t)
               choices
             }),
-          selectInput("unit", i18n$t("units"),
+          selectInput("unit", i18n$t("units"), selected = default_unit,
             choices = {
               choices = units_available
               names(choices) = sapply(units_available, i18n$t)

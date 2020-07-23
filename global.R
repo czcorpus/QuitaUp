@@ -16,6 +16,7 @@ bugReportUrl <- "https://podpora.korpus.cz/projects/xxxx"
 languages = c("cs", "en", "de", "fr")
 lang_retokenize = c("cs" = TRUE, "en" = FALSE, "de" = TRUE, "fr" = TRUE)
 units_available = c("word", "lc", "lemma")
+default_unit = "lc"
 udModelDir = "data/udmodels/"
 # udModels = c("cs" = "czech-pdt-ud-2.4-190531.udpipe",
 #              "en" = "english-ewt-ud-2.4-190531.udpipe",
