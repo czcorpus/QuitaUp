@@ -31,13 +31,13 @@ localizedUI <- function(i18n) {
             tabPanel(i18n$t("preview"), value = "preview",
               h3(i18n$t("uploadedfiles")),
               tableOutput("filesOverview"),
+              h3(i18n$t("controlpreview")),
               radioButtons("previewType", i18n$t("previewType"), inline=T,
                 choices = {
                   choices = c(1,2)
                   names(choices) = sapply(c("orig", "vert"), i18n$t)
                   choices
                 }),
-              h4(i18n$t("controlpreview")),
               uiOutput("textPanelsPreview")
               ),
             tabPanel(i18n$t("indices"), value = "indices",
