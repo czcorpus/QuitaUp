@@ -151,23 +151,74 @@ shinyServer(function(input, output, session) {
   output$textPanelsIndices <- renderUI({
     req(input$file, input$previewType)
     texts <- getOriginals()
-    ids = paste0("idx", texts$names)
+    ids <- paste0("idx", texts$names)
+    idstw <- paste0(ids, "tw")
     if (nrow(input$file) == 1) {
       list(
-        output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3)
+        fluidRow(
+          column(width=6, 
+            h3(i18n$t("indextext")),
+            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3)),
+          column(width=6, 
+            h3(i18n$t("twtext")),
+            output[[ idstw[1] ]] <- renderTable(getTwTable(1), spacing = "m", digits = 4),
+            tags$div(i18n$t("linktoUDPOStext"),
+                     tags$a(href="https://universaldependencies.org/u/pos/index.html", target="_blank",
+                            i18n$t("linktoUDPOS")), class="note")
+            )
+        )
       )
     } else {
       lapply(1:length(texts$names), function(i) {
-        #ids = paste0("idx", texts$names)
         output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
+        output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
       })
-      panels <- mapply(function(name, id) tabPanel(name, tableOutput(id)),
-                       texts$shortnames, paste0("idx", texts$names),
+      panels <- mapply(function(name, id, idtw) tabPanel(name, 
+                                                   fluidRow(
+                                                     column(width=6,
+                                                       h3(i18n$t("indextext")),
+                                                       tableOutput(id)),
+                                                     column(width=6, 
+                                                       h3(i18n$t("twtext")),
+                                                       tableOutput(idtw),
+                                                       tags$div(i18n$t("linktoUDPOStext"),
+                                                                tags$a(href="https://universaldependencies.org/u/pos/index.html", 
+                                                                       i18n$t("linktoUDPOS")), class="note")
+                                                       )
+                                                     )
+                                                   ),
+                       texts$shortnames, ids, idstw,
                        SIMPLIFY = FALSE, USE.NAMES = FALSE)
-      do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,7)), panels) )
+      do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,10)), panels) )
     }
-    
   })
+  
+  getTwTable <- function(nText) {
+    #data.frame(a = rep(1, nText), b = rep(20, nText), c = rep(300, nText))
+    vertical <- adjVertical()
+    hp <- sapply(vertical, function (x) hpoint(x, attr = hptc_attr))
+    tc <- mapply(function (x, y) TW(x, h = y, attr = hptc_attr),
+                 vertical, hp, SIMPLIFY = FALSE)
+    stc <- mapply(function (x, y) TW(x, h = 2*y, attr = hptc_attr),
+                  vertical, hp, SIMPLIFY = FALSE)
+    if (nrow(tc[[nText]]) == 0) {
+      tmp <- stc[[nText]] 
+      tmp$tw = NA
+      tc[[nText]] <- tmp
+    }
+    if (nrow(stc[[nText]]) > 0) {
+      twtable <- full_join(
+        select(tc[[nText]], 1, upos, tw),
+        select(stc[[nText]], 1, upos, tw),
+        by = c(hptc_attr, "upos"),
+        suffix = c(".1hp", ".2hp")
+      )
+      colnames(twtable) <- sapply(colnames(twtable), i18n$t)
+    } else {
+     twtable <- data.frame() 
+    }
+    return(twtable)
+  }
   
   getIdxTable <- function(nText) {
     results <- getIndices()
@@ -211,7 +262,7 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, ttr, "ttr")
     #hpoint
     # form + upos? rank or adjRank?
-    hp <- sapply(vertical, function (x) hpoint(x, attr = "form"))
+    hp <- sapply(vertical, function (x) hpoint(x, attr = hptc_attr))
     results <- addIndex(results, hp, "hpoint")
     #hapax
     hap <- sapply(vertical, function (x) sum(table(x$form) == 1) )
@@ -238,18 +289,20 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, atl, "atl")
     # TC
     # definition of autosemantics
-    tc <- mapply(function (x, y) countTC(x, h = y, attr = "form"),
+    tc <- mapply(function (x, y) countTC(x, h = y, attr = hptc_attr),
                  vertical, hp)
     results <- addIndex(results, tc, "tc")
     # Secondary TC
-    stc <- mapply(function (x, y) countTC(x, h = 2*y, attr = "form"),
+    stc <- mapply(function (x, y) countTC(x, h = 2*y, attr = hptc_attr),
                   vertical, hp)
     results <- addIndex(results, stc, "stc")
     # MATTR
     # size of a windown L?
     ma <- sapply(vertical, function (x) mattr(x, attr = "form", L = 100))
     results <- addIndex(results, ma, "mattr")
-    
+    ma5 <- sapply(vertical, function (x) mattr(x, attr = "form", L = 500))
+    results <- addIndex(results, ma5, "mattr5")
+    #browser()
     return(results)
   })
   

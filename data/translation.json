@@ -21,6 +21,7 @@
     {"dummy": "go",           "cs": "Analyzuj", "en": "Analyze"},
     
     {"dummy": "preview",      "cs": "Náhled", "en": "Preview"},
+    {"dummy": "controlpreview", "cs": "Kontrolní náhled", "en": "Control preview"},
     {"dummy": "textsel",      "cs": "Výběr souborů", "en": "Choose a file"},
     {"dummy": "previewType",  "cs": "Formát náhledu", "en": "Preview format"},
     {"dummy": "orig",         "cs": "výchozí", "en": "original"},
@@ -32,6 +33,7 @@
     
     {"dummy": "indices",      "cs": "Indexy", "en": "Indices"},
     {"dummy": "indextext",    "cs": "Indexy pro jednotlivé texty", "en": "Indices of individual texts"},
+    {"dummy": "twtext",       "cs": "Tématické váhy slov", "en": "Thematic weights of words"},
     {"dummy": "idx",          "cs": "Index", "en": "Index"},
     {"dummy": "val",          "cs": "Hodnota", "en": "Value"},
     {"dummy": "tokens",       "cs": "Tokeny", "en": "Tokens"},
@@ -60,7 +62,14 @@
     {"dummy": "atl",          "cs": "Průměrná délka (ATL)", "en": "Average Token legnth (ATL)"},
     {"dummy": "tc",           "cs": "Tematická koncentrace (TC)", "en": "Thematic concentration (TC)"},
     {"dummy": "stc",          "cs": "Sekundární tematická koncentrace (STC)", "en": "Secondary thematic concentration (STC)"},
-    {"dummy": "mattr",        "cs": "Klouzavý průměr TTR (MATTR)", "en": "Moving Average Type-Token Ratio (MATTR)"},
+    {"dummy": "mattr",        "cs": "Klouzavý průměr TTR (MATTR, L=100)", "en": "Moving Average Type-Token Ratio (MATTR, L=100)"},
+    {"dummy": "mattr5",        "cs": "Klouzavý průměr TTR (MATTR, L=500)", "en": "Moving Average Type-Token Ratio (MATTR, L=500)"},
+    {"dummy": "form",         "cs": "Tvar", "en": "Form"},
+    {"dummy": "upos",         "cs": "Sl. druh", "en": "POS"},
+    {"dummy": "tw.1hp",       "cs": "TW (primární TC)", "en": "TW (primary TC)"},
+    {"dummy": "tw.2hp",       "cs": "TW (sekundární TC)", "en": "TW (secondary TC)"},
+    {"dummy": "linktoUDPOStext",  "cs": "Zkraty slovních druhů jsou k dispozici v rámci", "en": "For POS tags see"},
+    {"dummy": "linktoUDPOS",  "cs": "dokumentace UD", "en": "UD documentation"},
     
     {"dummy": "vertprogress", "cs": "Provádím morfologickou analýzu", "en": "Performing morfological tagging"},
     {"dummy": "Hotovo",       "cs": "Hotovo", "en": "Done"},

@@ -36,10 +36,11 @@ localizedUI <- function(i18n) {
                   names(choices) = sapply(c("orig", "vert"), i18n$t)
                   choices
                 }),
+              h4(i18n$t("controlpreview")),
               uiOutput("textPanelsPreview")
               ),
             tabPanel(i18n$t("indices"), value = "indices",
-              h3(i18n$t("indextext")),
+              #h3(i18n$t("indextext")),
               uiOutput("textPanelsIndices")
               )
             )

@@ -17,6 +17,7 @@ languages = c("cs", "en", "de", "fr")
 lang_retokenize = c("cs" = TRUE, "en" = FALSE, "de" = TRUE, "fr" = TRUE)
 units_available = c("word", "lc", "lemma")
 default_unit = "lc"
+hptc_attr = "form"
 udModelDir = "data/udmodels/"
 # udModels = c("cs" = "czech-pdt-ud-2.4-190531.udpipe",
 #              "en" = "english-ewt-ud-2.4-190531.udpipe",
@@ -169,21 +170,26 @@ countATL <- function(df, attr = "token") {
 
 # =====
 
-countTC <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN", "VERB", "PROPN")) {
+TW <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN", "VERB", "PROPN")) {
   rankfqdist <- adjRanking(df, attr)
-  #print(h)
   f1 <- max(rankfqdist$fq)
   tcwords <- filter(rankfqdist, rank <= h, upos %in% autosemanticupos)
-  #print(tcwords)
+  #browser()
   if (nrow(tcwords) > 0) {
-    tc <- sum( 2 * ( (h - tcwords$adjrank)*tcwords$fq ) / ( h * (h-1) * f1 ) )
-  } else {
-    tc <- 0
+    tcwords$tw <- apply(tcwords, 1, function(x) 2 * ( (h - as.numeric(x["adjrank"]) )* as.numeric(x["fq"]) ) / ( h * (h-1) * f1 ) )
   }
-  #print(tc)
-  return(tc)
+  return(tcwords)
 }
 
+countTC <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN", "VERB", "PROPN")) {
+  TWlist <- TW(df, h, attr, autosemanticupos)
+  tc <- 0
+  if (nrow(TWlist) > 0) {
+    tc <- sum(TWlist$tw)
+  }
+  return(tc)
+}
+  
 # =====
 
 mattr <- function(df, attr = "token", L = 100) {
