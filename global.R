@@ -110,7 +110,7 @@ adjRanking <- function(df, attr = "token") {
     arrange(desc(fq)) %>% mutate(rank = 1:nrow(.))
   left_join(
     fqdist,
-    fqdist %>% group_by(fq) %>% summarise(adjrank = mean(rank)),
+    fqdist %>% group_by(fq) %>% summarise(adjrank = mean(rank), .groups="drop"),
     by = "fq"
   )
 }

@@ -25,6 +25,7 @@ localizedUI <- function(i18n) {
         checkboxInput("punct", i18n$t("punct"), value = TRUE)
         ),
         
+        
         mainPanel(width=9,
           tabsetPanel(
             tabPanel(i18n$t("preview"), value = "preview",
@@ -40,7 +41,6 @@ localizedUI <- function(i18n) {
               uiOutput("textPanelsPreview")
               ),
             tabPanel(i18n$t("indices"), value = "indices",
-              #h3(i18n$t("indextext")),
               uiOutput("textPanelsIndices")
               )
             )
