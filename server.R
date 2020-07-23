@@ -153,12 +153,19 @@ shinyServer(function(input, output, session) {
     texts <- getOriginals()
     ids <- paste0("idx", texts$names)
     idstw <- paste0(ids, "tw")
+    idsvert <- paste0(texts$names, ".vert")
+    idsvals <- paste0(texts$names, ".vals")
     if (nrow(input$file) == 1) {
       list(
         fluidRow(
           column(width=6, 
             h3(i18n$t("indextext")),
-            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3)),
+            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3),
+            output[[ idsvert[1] ]] <- downloadHandler(idsvert[1], function(file) prepareDownload(file, 1), 
+                                                      contentType = "text/csv", outputArgs = list(label = i18n$t("vertikala"))),
+            output[[ idsvals[1] ]] <- downloadHandler(idsvals[1], function(file) write.csv(getIdxTable(1), file, row.names = FALSE), 
+                                                      contentType = "text/csv", outputArgs = list(label = i18n$t("indexydwld")))
+            ),
           column(width=6, 
             h3(i18n$t("twtext")),
             output[[ idstw[1] ]] <- renderTable(getTwTable(1), spacing = "m", digits = 4),
@@ -172,12 +179,17 @@ shinyServer(function(input, output, session) {
       lapply(1:length(texts$names), function(i) {
         output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
+        output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], function(file) prepareDownload(file, i), contentType = "text/csv")
+        output[[ idsvals[i] ]] <- downloadHandler(idsvals[i], function(file) write.csv(getIdxTable(i), file, row.names = FALSE), contentType = "text/csv")
       })
-      panels <- mapply(function(name, id, idtw) tabPanel(name, 
+      panels <- mapply(function(name, id, idtw, idver,idin) tabPanel(name, 
                                                    fluidRow(
                                                      column(width=6,
                                                        h3(i18n$t("indextext")),
-                                                       tableOutput(id)),
+                                                       tableOutput(id),
+                                                       downloadButton(idver, label = i18n$t("vertikala")),
+                                                       downloadButton(idin, label = i18n$t("indexydwld"))
+                                                       ),
                                                      column(width=6, 
                                                        h3(i18n$t("twtext")),
                                                        tableOutput(idtw),
@@ -187,11 +199,16 @@ shinyServer(function(input, output, session) {
                                                        )
                                                      )
                                                    ),
-                       texts$shortnames, ids, idstw,
+                       texts$shortnames, ids, idstw, idsvert, idsvals,
                        SIMPLIFY = FALSE, USE.NAMES = FALSE)
       do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,10)), panels) )
     }
   })
+  
+  prepareDownload = function(file, nText) { 
+    vertical <- adjVertical()
+    write.csv(vertical[[nText]], file, row.names = FALSE)
+  }
   
   getTwTable <- function(nText) {
     #data.frame(a = rep(1, nText), b = rep(20, nText), c = rep(300, nText))
@@ -227,6 +244,7 @@ shinyServer(function(input, output, session) {
     colnames(resultsTable) <- sapply(colnames(resultsTable), i18n$t)
     return(resultsTable)
   }
+  
   
   adjVertical <- reactive({
     req(input$file, input$langsel, input$unit)
