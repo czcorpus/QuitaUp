@@ -13,20 +13,28 @@ appVer = c("7/2020" = "0.02")
 bugReportUrl <- "https://podpora.korpus.cz/projects/xxxx"
 #enableBookmarking(store = "url")
 
-languages = c("cs", "en", "de", "fr")
-lang_retokenize = c("cs" = TRUE, "en" = FALSE, "de" = TRUE, "fr" = TRUE)
+#languages = c("cs", "de", "en", "et", "fr", "ja", "la")
+#lang_retokenize = c("cs" = TRUE, "de" = TRUE, "en" = FALSE, "et" = FALSE, "fr" = TRUE)
 units_available = c("word", "lc", "lemma")
 default_unit = "lc"
 hptc_attr = "form"
 udModelDir = "data/udmodels/"
-# udModels = c("cs" = "czech-pdt-ud-2.4-190531.udpipe",
-#              "en" = "english-ewt-ud-2.4-190531.udpipe",
-#              "de" = "german-gsd-ud-2.4-190531.udpipe",
-#              "fr" = "french-gsd-ud-2.4-190531.udpipe")
 udModels = c("cs" = "cs_pdt.model",
-            "en" = "en_ewt.model",
-            "de" = "de_gsd.model",
-            "fr" = "fr_gsd.model")
+             "de" = "de_gsd.model",
+             "en" = "en_ewt.model",
+             "et" = "estonian-edt-ud-2.4-190531.udpipe",
+             "fr" = "fr_gsd.model",
+             "ja" = "japanese-gsd-ud-2.4-190531.udpipe",
+             "la" = "latin-proiel-ud-2.4-190531.udpipe",
+             "lv" = "latvian-lvtb-ud-2.4-190531.udpipe",
+             "pl" = "polish-lfg-ud-2.4-190531.udpipe",
+             "ro" = "romanian-rrt-ud-2.4-190531.udpipe",
+             "ru" = "russian-gsd-ud-2.4-190531.udpipe",
+             "sk" = "slovak-snk-ud-2.4-190531.udpipe",
+             "sl" = "slovenian-ssj-ud-2.4-190531.udpipe",
+             "sv" = "swedish-talbanken-ud-2.4-190531.udpipe",
+             "uk" = "ukrainian-iu-ud-2.4-190531.udpipe")
+languages <- names(udModels)
 udParallel.cores = 10
 maxCharFileName = 20 
 maxCharTextPreview = 3000
