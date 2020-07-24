@@ -42,6 +42,11 @@
     {"dummy": "filename",     "cs": "Název souboru", "en": "File name"},
     {"dummy": "filesize",     "cs": "Velikost", "en": "Size"},
     {"dummy": "filetype",     "cs": "Typ", "en": "MIME type"},
+    {
+      "dummy": "udmodeltext", 
+      "cs": "Tokenizace a tagování – <a href='https://universaldependencies.org'>Universal dependencies</a>, model:", 
+      "en": "Tokenization & tagging – <a href='https://universaldependencies.org'>Universal dependencies</a>, model:"
+    },
     
     {"dummy": "indices",      "cs": "Indexy", "en": "Indices"},
     {"dummy": "indextext",    "cs": "Indexy pro jednotlivé texty", "en": "Indices of individual texts"},

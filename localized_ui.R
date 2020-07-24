@@ -39,7 +39,8 @@ localizedUI <- function(i18n) {
                     names(choices) = sapply(c("orig", "vert"), i18n$t)
                     choices
                     }),
-                uiOutput("textPanelsPreview")
+                uiOutput("textPanelsPreview"),
+                htmlOutput("UDmodel")
                 ),
               ),
             tabPanel(i18n$t("indices"), value = "indices",

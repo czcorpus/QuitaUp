@@ -111,6 +111,13 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  output$UDmodel <- renderText({
+    req(input$file, input$previewType, input$langsel)
+    if (input$previewType != 1) { # view vertical
+      paste0("<div class='note'>", i18n$t("udmodeltext"), " ", udModels[input$langsel],".</div>")
+    }
+  })
+  
   observeEvent(input$previewType, {
     selectedTab <- input$textSelectorPanel
     updateNavlistPanel(session, "textSelectorPanel", selected = selectedTab)
