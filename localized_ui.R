@@ -29,19 +29,25 @@ localizedUI <- function(i18n) {
         mainPanel(width=9,
           tabsetPanel(
             tabPanel(i18n$t("preview"), value = "preview",
-              h3(i18n$t("uploadedfiles")),
-              tableOutput("filesOverview"),
-              h3(i18n$t("controlpreview")),
-              radioButtons("previewType", i18n$t("previewType"), inline=T,
-                choices = {
-                  choices = c(1,2)
-                  names(choices) = sapply(c("orig", "vert"), i18n$t)
-                  choices
-                }),
-              uiOutput("textPanelsPreview")
+              conditionalPanel(condition = "output.checkupload",
+                h3(i18n$t("uploadedfiles")),
+                tableOutput("filesOverview"),
+                h3(i18n$t("controlpreview")),
+                radioButtons("previewType", i18n$t("previewType"), inline=T,
+                  choices = {
+                    choices = c(1,2)
+                    names(choices) = sapply(c("orig", "vert"), i18n$t)
+                    choices
+                    }),
+                uiOutput("textPanelsPreview")
+                ),
               ),
             tabPanel(i18n$t("indices"), value = "indices",
               uiOutput("textPanelsIndices")
+              ),
+            tabPanel(i18n$t("about"), value = "about",
+              h3(i18n$t("welcome hdln")),
+              HTML(i18n$t("welcome text"))
               )
             )
           )

@@ -19,6 +19,11 @@ shinyServer(function(input, output, session) {
   
   output$localizedUI <- renderUI(localizedUI(i18n))
   
+  output$checkupload <- reactive({ # for hiding/showing conditional panel
+    nrow(input$file)
+  })
+  outputOptions(output, "checkupload", suspendWhenHidden = FALSE) 
+  
   textCounts <- reactiveValues(valid = 0, all = 0)
   
   getOriginals <- reactive({
@@ -47,28 +52,6 @@ shinyServer(function(input, output, session) {
     texts
   })
   
-  # getVertical <- reactive({
-  #   req(input$file, input$langsel)
-  #   withProgress(message = i18n$t("vertprogress"), value = 0, {
-  #     texts <- getOriginals()
-  #     timestamp()
-  #     vert <- list()
-  #     prgTot = 2 * length(texts$originals) + 1
-  #     prgInc = 1
-  #     incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-  #     for (i in 1:length(texts$originals)) {
-  #       udout <- udpipe(x = texts$originals[i], object = paste0(udModelDir, udModels[input$langsel]), parallel.cores = udParallel.cores)
-  #       prgInc = prgInc + 1
-  #       incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-  #       #vert[[i]] <- retokenizeUDpipe(udout)
-  #       vert[[i]] <- retokenizeUDpipeDavid(udout)
-  #       prgInc = prgInc + 1
-  #       incProgress(1/prgTot, detail = paste0(i18n$t("Hotovo"), " ", round(100 * prgInc/prgTot, digits=1), " %"))
-  #     }
-  #   })
-  #   timestamp()
-  #   vert
-  # })
   
   getVertical <- reactive({
     req(input$file, input$langsel)
@@ -179,8 +162,11 @@ shinyServer(function(input, output, session) {
       lapply(1:length(texts$names), function(i) {
         output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
-        output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], function(file) prepareDownload(file, i), contentType = "text/csv")
-        output[[ idsvals[i] ]] <- downloadHandler(idsvals[i], function(file) write.csv(getIdxTable(i), file, row.names = FALSE), contentType = "text/csv")
+        output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], 
+                                                  function(file) prepareDownload(file, i), contentType = "text/csv")
+        output[[ idsvals[i] ]] <- downloadHandler(idsvals[i], 
+                                                  function(file) write.csv(getIdxTable(i), file, row.names = FALSE), 
+                                                  contentType = "text/csv")
       })
       panels <- mapply(function(name, id, idtw, idver,idin) tabPanel(name, 
                                                    fluidRow(
