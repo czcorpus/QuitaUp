@@ -15,6 +15,7 @@
     {"dummy": "ja",           "cs": "japonština", "en": "Japanese"},
     {"dummy": "la",           "cs": "latina", "en": "Latin"},
     {"dummy": "lv",           "cs": "lotyština", "en": "Latvian"},
+    {"dummy": "nl",           "cs": "nizozemština", "en": "Dutch"},
     {"dummy": "pl",           "cs": "polština", "en": "Polish"},
     {"dummy": "ro",           "cs": "rumunština", "en": "Romanian"},
     {"dummy": "ru",           "cs": "ruština", "en": "Russian"},
