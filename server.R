@@ -248,9 +248,10 @@ shinyServer(function(input, output, session) {
     } else {
       adj <- vertical
     }
-    # create form column
+    # create lc and form column
+    adj <- lapply(adj, function (x) { x$lc <- stringr::str_to_lower(x$token, locale = input$langsel); return(x) } )
     if (input$unit == "lc") {
-      adj <- lapply(adj, function (x) { x$form <- stringr::str_to_lower(x$token, locale = input$langsel); return(x) } )
+      adj <- lapply(adj, function (x) { x$form <- x$lc; return(x) } )
     } else if (input$unit == "lemma") {
       adj <- lapply(adj, function (x) { x$form <- x$lemma; return(x) } )
     } else {
@@ -313,6 +314,27 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, ma, "mattr")
     ma5 <- sapply(vertical, function (x) mattr(x, attr = "form", L = 500))
     results <- addIndex(results, ma5, "mattr5")
+    # MAMR
+    if (input$unit == "lc") {
+      ma.wf <- ma
+      ma5.wf <- ma5
+      ma.l <- sapply(vertical, function (x) mattr(x, attr = "lemma", L = 100))
+      ma5.l <- sapply(vertical, function (x) mattr(x, attr = "lemma", L = 500))
+    } else if (input$unit == "lemma") {
+      ma.wf <- sapply(vertical, function (x) mattr(x, attr = "lc", L = 100))
+      ma5.wf <- sapply(vertical, function (x) mattr(x, attr = "lc", L = 500))
+      ma.l <- ma
+      ma5.l <- ma5
+    } else {
+      ma.wf <- sapply(vertical, function (x) mattr(x, attr = "lc", L = 100))
+      ma5.wf <- sapply(vertical, function (x) mattr(x, attr = "lc", L = 500))
+      ma.l <- sapply(vertical, function (x) mattr(x, attr = "lemma", L = 100))
+      ma5.l <- sapply(vertical, function (x) mattr(x, attr = "lemma", L = 500))
+    }
+    mamr <- ma.wf - ma.l
+    mamr5 <- ma5.wf - ma5.l
+    results <- addIndex(results, mamr, "mamr")
+    results <- addIndex(results, mamr5, "mamr5")
     #browser()
     return(results)
   })
