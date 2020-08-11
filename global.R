@@ -14,27 +14,33 @@ bugReportUrl <- "https://podpora.korpus.cz/projects/xxxx"
 #enableBookmarking(store = "url")
 
 #languages = c("cs", "de", "en", "et", "fr", "ja", "la")
-#lang_retokenize = c("cs" = TRUE, "de" = TRUE, "en" = FALSE, "et" = FALSE, "fr" = TRUE)
+lang_retokenize = c("ar" = TRUE, "cs" = TRUE, "de" = TRUE, "en" = FALSE, "es" = TRUE, "et" = FALSE, "fr" = TRUE, "fi" = TRUE, "it" = TRUE, "ja" = FALSE, "la" = FALSE, "lv" = FALSE, "nl" = FALSE, "pl" = FALSE, "pt" = TRUE, "ro" = FALSE, "ru" = FALSE, "sk" = FALSE, "sl" = FALSE, "sv" = FALSE, "uk" = FALSE)
 units_available = c("word", "lc", "lemma")
 default_unit = "lc"
 hptc_attr = "form"
 udModelDir = "data/udmodels/"
-udModels = c("cs" = "cs_pdt.model",
-             "de" = "de_gsd.model",
-             "en" = "en_ewt.model",
-             "et" = "estonian-edt-ud-2.5-191206.udpipe",
-             "fr" = "fr_gsd.model",
-             "ja" = "japanese-gsd-ud-2.5-191206.udpipe",
-             "la" = "latin-ittb-ud-2.5-191206.udpipe",
-             "lv" = "latvian-lvtb-ud-2.5-191206.udpipe",
-             "nl" = "dutch-alpino-ud-2.5-191206.udpipe",
-             "pl" = "polish-lfg-ud-2.5-191206.udpipe",
-             "ro" = "romanian-rrt-ud-2.5-191206.udpipe",
-             "ru" = "russian-gsd-ud-2.5-191206.udpipe",
-             "sk" = "slovak-snk-ud-2.5-191206.udpipe",
-             "sl" = "slovenian-ssj-ud-2.5-191206.udpipe",
-             "sv" = "swedish-talbanken-ud-2.5-191206.udpipe",
-             "uk" = "ukrainian-iu-ud-2.5-191206.udpipe")
+udModels = c(
+  "ar" = "ar_padt-2.5.model",
+  "cs" = "cs_pdt-2.5.model",
+  "de" = "de_gsd-2.5.model",
+  "en" = "en_ewt-2.5.model",
+  "es" = "es_ancora-2.5.model",
+  "et" = "estonian-edt-ud-2.5-191206.udpipe",
+  "fi" = "fi_tdt-2.5.model",
+  "fr" = "fr_gsd-2.5.model",
+  "it" = "it_vit-2.5.model",
+  "ja" = "japanese-gsd-ud-2.5-191206.udpipe",
+  "la" = "latin-ittb-ud-2.5-191206.udpipe",
+  "lv" = "latvian-lvtb-ud-2.5-191206.udpipe",
+  "nl" = "dutch-alpino-ud-2.5-191206.udpipe",
+  "pl" = "polish-lfg-ud-2.5-191206.udpipe",
+  "pt" = "pt_bosque-2.5.model",
+  "ro" = "romanian-rrt-ud-2.5-191206.udpipe",
+  "ru" = "russian-gsd-ud-2.5-191206.udpipe",
+  "sk" = "slovak-snk-ud-2.5-191206.udpipe",
+  "sl" = "slovenian-ssj-ud-2.5-191206.udpipe",
+  "sv" = "swedish-talbanken-ud-2.5-191206.udpipe",
+  "uk" = "ukrainian-iu-ud-2.5-191206.udpipe")
 languages <- names(udModels)
 udParallel.cores = 10
 maxCharFileName = 20 
