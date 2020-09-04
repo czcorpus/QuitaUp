@@ -21,7 +21,7 @@ a:hover {
 
 .well {
   background-color: #f2f2f2;
-  border: 1px groove #b3e8ff;  /*light blue*/
+  border: 1px groove #f9b686; /* light orange*/ /*#b3e8ff;  *light blue*/
 }
 
 .note {
