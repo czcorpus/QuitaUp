@@ -5,4 +5,4 @@ packrat/lib*/
 packrat/src
 access.log
 zkouseni.R
-data/udmodels
+data/udmodels/*

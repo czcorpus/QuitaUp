@@ -13,7 +13,6 @@ appVer = c("7/2020" = "0.02")
 bugReportUrl <- "https://podpora.korpus.cz/projects/xxxx"
 #enableBookmarking(store = "url")
 
-#languages = c("cs", "de", "en", "et", "fr", "ja", "la")
 lang_retokenize = c("ar" = TRUE, "cs" = TRUE, "de" = TRUE, "en" = FALSE, "es" = TRUE, "et" = FALSE, "fr" = TRUE, "fi" = TRUE, "it" = TRUE, "ja" = FALSE, "la" = FALSE, "lv" = FALSE, "nl" = FALSE, "pl" = FALSE, "pt" = TRUE, "ro" = FALSE, "ru" = FALSE, "sk" = FALSE, "sl" = FALSE, "sv" = FALSE, "uk" = FALSE)
 units_available = c("word", "lc", "lemma")
 default_unit = "lc"
