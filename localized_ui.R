@@ -4,7 +4,7 @@ localizedUI <- function(i18n) {
   fluidPage(
     tagList(
       titlePanel(
-        title=div(img(src="QuitaUp_logo.svg", height=44, style="margin: 5px 0px 5px 3px;")),
+        title=div(img(src="QuitaUp_logo.svg", height=44, style="margin: 15px 0px 15px 3px;")),
                   windowTitle = i18n$t("title")
       ),
       
