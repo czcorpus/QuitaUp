@@ -1,14 +1,14 @@
-Quita+
+QuitaUp
 ===========================
 
-This repository contains source code for the *Quita+*.
+This repository contains source code for the *QuitaUp* app.
 
 In order to run the source code you'll need several R packages, namely shiny. For playing around we recommend [RStudio][rstudio]. The package version management is done by [packrat][packrat] package.
 
 License
 -------
 
-Copyright © 2019--present [ÚČNK][cnc]
+Copyright © 2020--present [ÚČNK][cnc]
 
 Distributed under the [GNU General Public License v3][gplv3]
 
