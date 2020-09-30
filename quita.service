@@ -1,0 +1,64 @@
+[Unit]
+# change description to match your app
+Description=QuitaUp
+After=network-online.target
+# remove the following line if you're not sure a notify-failed@ service is
+# available (or if you don't want to send out notifications when your app
+# crashes)
+OnFailure=notify-failed@%n
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+User=nobody
+# need access to files shared by a group?
+# Group=www-data
+# pick a unique port which is not in conflict with ports used by other services
+# on the same server
+Environment=SHINY_APP_PORT=10003
+# write out absolute path to your run.R wrapper...
+ExecStart=/opt/cnc-shiny-prod-demo/run.R
+# ... and your app's parent dir
+WorkingDirectory=/home/cvrcek/other/quitaplus
+Restart=on-failure
+RestartSec=10
+
+# NOTE:  When the service fails to start, this is what happens: there will be
+# automatic restart attempts every RestartSec seconds, until systemd notices
+# *strictly more* than StartLimitBurst attempts have occurred within
+# StartLimitIntervalSec, at which point restart attempts cease.
+#
+# For example, if the values are StartLimitIntervalSec=10, StartLimitBurst=3 and
+# RestartSec=3, this means the following happens on failure:
+#
+#                                                    |
+#             time: 0s ---- 3s ---- 6s ---- 9s - 10s |------------------>
+# restart attempts: ^ 1st   ^ 2nd   ^ 3rd   ^ 4th    |
+#
+# After the 4th attempt, more than 3 restart attempts have been made in the last
+# 10s, so at this point systemd stops trying. This is generally reasonable
+# because this probably means that there's a persistent problem which must be
+# resolved manually. Also, if you have failure notifications enabled (cf.
+# OnFailure above), the sysadmin's inbox won't be flooded with the same failure
+# notification over and over.
+#
+# Notice that this mechanism depends on mutually compatible settings of
+# StartLimitIntervalSec, StartLimitBurst and RestartSec. E.g. if you decrease
+# StartLimitIntervalSec to 5 and leave the other parameters unchanged, then there
+# will never be more than 3 restart attempts within StartLimitIntervalSec, and
+# systemd will keep trying to restart the service indefinitely.
+#
+# Note also that the startup events are not instantaneous, they might take some
+# time before they fail, which might vary depending on how busy the system is,
+# whether you're waiting for a slow resource (network or disk), etc. In the
+# example above, if the service runs for just 1s before failing each time, the
+# first attempt happens at 0s, the second at 4s, the third at 8s and the 4th at
+# 12s, which means we never hit the intended limit of at most 3 retries per 10s.
+#
+# This is why in practice, you should pick a StartLimitIntervalSec value with
+# some headroom (cf. suggested values in actual config above).
+
+[Install]
+WantedBy=multi-user.target
+
+# vim: set ft=systemd:
