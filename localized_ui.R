@@ -1,7 +1,7 @@
 library(shinyBS)
 
 localizedUI <- function(i18n) {
-  fluidPage(
+  fluidPage(withMathJax(),
     tagList(
       titlePanel(
         title=div(img(src="QuitaUp_logo.svg", height=44, style="margin: 15px 0px 15px 3px;")),
@@ -29,7 +29,7 @@ localizedUI <- function(i18n) {
         
         
         mainPanel(width=9,
-          tabsetPanel(
+          tabsetPanel(selected="about",
             tabPanel(i18n$t("preview"), value = "preview",
               conditionalPanel(condition = "output.checkupload",
                 h3(i18n$t("uploadedfiles")),
@@ -50,7 +50,32 @@ localizedUI <- function(i18n) {
               ),
             tabPanel(i18n$t("about"), value = "about",
               h3(i18n$t("welcome hdln")),
-              HTML(i18n$t("welcome text"))
+              HTML(i18n$t("info text")),
+              h3(i18n$t("manual")),
+              h4(i18n$t("vlozenitextu")),
+              HTML(i18n$t("vlozenitextutext")),
+              h4(i18n$t("zpractextu")),
+              HTML(i18n$t("zpractextutext")),
+              h4(i18n$t("vystupy")),
+              p(HTML(i18n$t("out N")), class="vystupy"),
+              p(HTML(i18n$t("out V")), class="vystupy"),
+              p(HTML(i18n$t("out TTR")), class="vystupy"),
+              p(HTML(i18n$t("out h")), class="vystupy"),
+              p(HTML(i18n$t("out hap")), class="vystupy"),
+              p(HTML(i18n$t("out haptok")), class="vystupy"),
+              p(HTML(i18n$t("out entro")), class="vystupy"),
+              p(HTML(i18n$t("out VD")), class="vystupy"),
+              p(HTML(i18n$t("out Q")), class="vystupy"),
+              p(HTML(i18n$t("out D")), class="vystupy"),
+              p(HTML(i18n$t("out ATL")), class="vystupy"),
+              p(HTML(i18n$t("out TC")), class="vystupy"),
+              p(HTML(i18n$t("out STC")), class="vystupy"),
+              p(HTML(i18n$t("out MATTR")), class="vystupy"),
+              p(HTML(i18n$t("out MAMR")), class="vystupy"),
+              h3(i18n$t("historie")),
+              p(HTML(i18n$t("historietext"))),
+              h3(i18n$t("literatura")),
+              p(HTML(i18n$t("literaturatext")))
               )
             )
           )
