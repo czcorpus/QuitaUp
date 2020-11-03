@@ -52,13 +52,19 @@ shinyServer(function(input, output, session) {
     texts
   })
   
+  observeEvent(input$file, {
+    if (input$mainpanel == "about") {
+      updateTabsetPanel(session, "mainpanel", selected = "preview")
+    }
+  })
+  
   
   getVertical <- reactive({
     req(input$file, input$langsel)
     #shinybusy::show_modal_spinner(text = i18n$t("vertprogress"), spin = "orbit", color = "#009ee0", session)
     shinybusy::show_modal_gif(src = "rotujici_lupa_mensi_V2.gif", text = i18n$t("vertprogress"), height = "42px", width = "34px")
     texts <- getOriginals()
-    timestamp()
+    #timestamp()
     texts.df <- data.frame(doc_id = texts$names, text = texts$originals)
     udout <- udpipe(x = texts.df, object = paste0(udModelDir, udModels[input$langsel]), parallel.cores = udParallel.cores, parser = "none")
     # if (lang_retokenize[input$langsel]) {
@@ -70,7 +76,7 @@ shinyServer(function(input, output, session) {
     vert <- split(udout, f = udout$doc_id)
     #shinybusy::remove_modal_spinner()
     shinybusy::remove_modal_gif()
-    timestamp()
+    #timestamp()
     vert
   })
   
@@ -267,7 +273,7 @@ shinyServer(function(input, output, session) {
     #tokens
     results = lapply(vertical, function (x) data.frame("idx" = "tokens", "val" = nrow(x), stringsAsFactors = F))
     #types
-    types <- sapply(vertical, function (x) length(table(x$form)))
+    types <- sapply(vertical, function (x) length(table(x$form)) )
     results <- addIndex(results, types, "types")
     #ttr
     ttr <- sapply(results, function (x) x[ x$idx == "types", ]$val / x[ x$idx == "tokens", ]$val)

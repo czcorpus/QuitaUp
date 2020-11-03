@@ -28,8 +28,8 @@ localizedUI <- function(i18n) {
         ),
         
         
-        mainPanel(width=9,
-          tabsetPanel(selected="about",
+        mainPanel(width=9, 
+          tabsetPanel(selected="about", id="mainpanel",
             tabPanel(i18n$t("preview"), value = "preview",
               conditionalPanel(condition = "output.checkupload",
                 h3(i18n$t("uploadedfiles")),
