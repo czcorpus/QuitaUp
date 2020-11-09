@@ -85,8 +85,10 @@ localizedUI <- function(i18n) {
         tags$small(
           i18n$t("title"), 
           #stringr::str_to_title(appName), 
-          i18n$t("ver"), appVer[1], HTML("&copy; <a href='https://www.korpus.cz'>"), i18n$t("cnc"), HTML("</a>"),
-          HTML("Václav Cvrček"), names(appVer[1]), HTML(paste0("&bull; <a href='"), bugReportUrl, "' target='_blank'>"), i18n$t("error"), HTML("</a>") 
+          i18n$t("ver"), appVer[1], names(appVer[1]), 
+          HTML("&copy; <a href='https://www.korpus.cz'>"), i18n$t("cnc"), HTML("</a>"), HTML("Václav Cvrček"), 
+          HTML("&bull; <a href='https://kcj.osu.cz/'>"), i18n$t("kcjffou"), HTML("</a>"),
+          HTML(paste0("&bull; <a href='"), bugReportUrl, "' target='_blank'>"), i18n$t("error"), HTML("</a>") 
         )
       )
     )

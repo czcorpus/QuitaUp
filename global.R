@@ -8,9 +8,9 @@ library(stringr)
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
 appName <- "QuitaUp"
-appVer = c("7/2020" = "0.02")
+appVer = c("11/2020" = "0.1")
 #logFile = "access.log"
-bugReportUrl <- "https://podpora.korpus.cz/projects/xxxx"
+bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
 #enableBookmarking(store = "url")
 
 lang_retokenize = c("ar" = TRUE, "cs" = TRUE, "de" = TRUE, "en" = FALSE, "es" = TRUE, "et" = FALSE, "fr" = TRUE, "fi" = TRUE, "it" = TRUE, "ja" = FALSE, "la" = FALSE, "lv" = FALSE, "nl" = FALSE, "pl" = FALSE, "pt" = TRUE, "ro" = FALSE, "ru" = FALSE, "sk" = FALSE, "sl" = FALSE, "sv" = FALSE, "uk" = FALSE)
