@@ -222,3 +222,56 @@ mattr <- function(df, attr = "token", L = 100) {
   }
   return(mattr)
 }
+
+
+# ============== zTTR a zqTTR =============
+
+# koeficienty:
+#load("data/zTTR-coeffs_2019-08-07.RData")
+countzttr <- function(data, koeficienty, lang, att , att_vert, reg = "FIC", corp = "InterCorp v11", model = "median-iqr") {
+  if (lang %in% (filter(koeficienty$median_iqr, corpus == corp, register == reg, attribute == "lemma") %>% pull(language))) {
+    if (att == "word") { 
+      att_koef = "word"
+      case_koef = "cs"
+    } else if (att == "lc") {
+      att_koef = "word"
+      case_koef = "ci"
+    } else if (att == "lemma") {
+      att_koef = "lemma"
+      case_koef = "ci"
+    }
+    attr <- as.name(att_vert)
+    tokens.vector <- pull(data, !!attr)
+    N <- length(tokens.vector)
+    V <- length(base::unique(tokens.vector))
+    ttr <- V / N
+    if (model == "mean-sd") {
+      coeffs <- filter(koeficienty$mean_sd,
+                       language == lang,
+                       corpus == corp,
+                       register == reg,
+                       attribute == att_koef,
+                       case == case_koef) %>%
+        select(2:5)
+    }
+    else if (model == "median-iqr") {
+      coeffs <- filter(koeficienty$median_iqr,
+                       language == lang,
+                       corpus == corp,
+                       register == reg,
+                       attribute == att_koef,
+                       case == case_koef) %>%
+        select(2:5)
+    }
+    else {
+      print("WTF")
+    }
+    zttr <- ( ttr - coeffs$a * N ^ coeffs$b ) / ( coeffs$c * N ^ coeffs$d )
+    refttr <- coeffs$a * N ^ coeffs$b
+    sdttr <- coeffs$c * N ^ coeffs$d
+    out <- zttr
+  } else {
+    out <- NA
+  }
+  return(out)
+}

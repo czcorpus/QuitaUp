@@ -71,6 +71,7 @@ localizedUI <- function(i18n) {
               p(HTML(i18n$t("out TC")), class="vystupy"),
               p(HTML(i18n$t("out STC")), class="vystupy"),
               p(HTML(i18n$t("out MATTR")), class="vystupy"),
+              p(HTML(i18n$t("out zTTR")), class="vystupy"),
               p(HTML(i18n$t("out MAMR")), class="vystupy"),
               h3(i18n$t("historie")),
               p(HTML(i18n$t("historietext"))),

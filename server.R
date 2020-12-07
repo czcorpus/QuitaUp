@@ -320,6 +320,10 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, ma, "mattr")
     ma5 <- sapply(vertical, function (x) mattr(x, attr = "form", L = 500))
     results <- addIndex(results, ma5, "mattr5")
+    # zTTR
+    if (!exists("koeficienty")) { load("data/zTTR-coeffs_2019-08-07.RData") }
+    zttr <- sapply(vertical, function (x) countzttr(x, koeficienty, lang = input$langsel, att = input$unit, att_vert = "form"))
+    results <- addIndex(results, zttr, "zttr")
     # MAMR
     if (input$unit == "lc") {
       ma.wf <- ma
