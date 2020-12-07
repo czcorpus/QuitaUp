@@ -31,7 +31,7 @@
     {"dummy": "units",        "cs": "Jednotky", "en": "Units"},
     {"dummy": "word",         "cs": "Slovní tvary (case sensitive)", "en": "Word forms (case sensitive)"},
     {"dummy": "lc",           "cs": "Slovní tvary (case insensitive)", "en": "Word forms (case insensitive)"},
-    {"dummy": "lemma",        "cs": "Lemmata", "en": "Lammas"},
+    {"dummy": "lemma",        "cs": "Lemmata", "en": "Lemmas"},
     {"dummy": "punct",        "cs": "Ignorovat interpunkci", "en": "Ignore punctuation"},
     {"dummy": "yes",          "cs": "Ano", "en": "Yes"},
     {"dummy": "no",           "cs": "Ne", "en": "No"},
