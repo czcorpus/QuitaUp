@@ -81,7 +81,7 @@
     {"dummy": "vdist",        "cs": "Verb distance (VD)", "en": "Verb distance (VD)"},
     {"dummy": "activity",     "cs": "Activity (Q)", "en": "Activity (Q)"},
     {"dummy": "descriptivity","cs": "Descriptivity (D)", "en": "Descriptivity (D)"},
-    {"dummy": "atl",          "cs": "Průměrná délka (ATL)", "en": "Average Token legnth (ATL)"},
+    {"dummy": "atl",          "cs": "Průměrná délka (ATL)", "en": "Average Token length (ATL)"},
     {"dummy": "tc",           "cs": "Tematická koncentrace (TC)", "en": "Thematic concentration (TC)"},
     {"dummy": "stc",          "cs": "Sekundární tematická koncentrace (STC)", "en": "Secondary thematic concentration (STC)"},
     {"dummy": "mattr",        "cs": "Klouzavý průměr TTR (MATTR, L=100)", "en": "Moving Average Type-Token Ratio (MATTR, L=100)"},
@@ -113,7 +113,7 @@
     {"dummy": "vlozenitextu",  "cs": "Vložení textů", "en": "Uploading texts"},
     {
       "dummy": "vlozenitextutext",
-      "cs": "Nahrávané texty musí být ve formátu .txt, .docx, .doc, .odt, .rtf nebo .pdf. s kódováním unicode (UTF-8).", 
+      "cs": "Nahrávané texty musí být ve formátu .txt, .docx, .doc, .odt, .rtf nebo .pdf s kódováním unicode (UTF-8).", 
       "en": "Uploaded texts must be in .txt, .docx, .doc, .odt, .rtf or .pdf format with Unicode encoding (UTF-8)."
     },
     {"dummy": "zpractextu",  "cs": "Zpracování textu", "en": "Text processing"},
@@ -170,8 +170,8 @@
     },
     {
       "dummy": "out D",
-      "cs": "<b>Deskriptivita (D)</b> vyjadřuje míru popisnosti textu. Je tak obrácenou hodnotou aktivity (viz výše), a platí tedy <i>D = 1 - Q</i>.",
-      "en": "<b>Descriptivity (D)</b> expresses the degree of description in a text. It is thus the inverse of the activity (see above), i.e. <i>D = 1 - Q</i>."
+      "cs": "<b>Deskriptivita (D)</b> vyjadřuje míru popisnosti textu. Je tak obrácenou hodnotou aktivity (viz výše), a platí tedy <i>D = 1 – Q</i>.",
+      "en": "<b>Descriptivity (D)</b> expresses the degree of description in a text. It is thus the inverse of the activity (see above), i.e. <i>D = 1 – Q</i>."
     },
     {
       "dummy": "out ATL",
@@ -195,8 +195,8 @@
     },
     {
       "dummy": "out zTTR",
-      "cs": "<b>zTTR (normalizované TTR)</b> je index sloužící rovněž k odhadu lexikální bohatosti, který je založen na porovnání naměřených hodnot TTR s hodnotami referenčními (srov. <a href='https://link.springer.com/article/10.1007/s11185-015-9151-8'>Cvrček - Chlumská 2015</a>): $$zTTR = \\frac{TTR - Med_{TTR}}{IQR_{TTR}}$$ konkrétně s mediánem a mezikvartilovým rozpětím hodnot TTR pro texty dané délky. Pro účely výpočtu byly použity referenční hodnoty z korpusu <a href='https://wiki.korpus.cz/doku.php/cnk:intercorp:verze11'>InterCorp v11</a>, resp. jeho beletristické části. Více možností výpočtu zTTR je k dispozici v aplikaci <a href='https://www.korpus.cz/calc/?module=zTTR'>Calc</a>. Výpočet zTTR je v současnosti k dispozici pouze pro jazyky: cs, de, en, es, fr, nl, pl, pt.",
-      "en": "<b>zTTR (normalized TTR)</b> is an index of lexical richness based on comparing the observed value of TTR with referential values (cf. <a href='https://link.springer.com/article/10.1007/s11185-015-9151-8'>Cvrček - Chlumská 2015</a>): $$zTTR = \\frac{TTR - Med_{TTR}}{IQR_{TTR}}$$ i.e. median and interquartile range of TTR values for texts of a given length. The referential values were taken from the fiction part of the <a href='https://wiki.korpus.cz/doku.php/en:cnk:intercorp:verze11'>InterCorp parallel corpus (version 11)</a>. More options for zTTR calculations are available within the <a href='https://www.korpus.cz/calc/?module=zTTR'>Calc</a> app. At the time being the zTTR values are available for selected languages only: cs, de, en, es, fr, nl, pl, pt."
+      "cs": "<b>zTTR (normalizované TTR)</b> je index sloužící rovněž k odhadu lexikální bohatosti, který je založen na porovnání naměřených hodnot TTR s hodnotami referenčními (srov. <a href='https://link.springer.com/article/10.1007/s11185-015-9151-8'>Cvrček, Chlumská 2015</a>): $$zTTR = \\frac{TTR - Med_{TTR}}{IQR_{TTR}}$$ konkrétně s mediánem a mezikvartilovým rozpětím hodnot TTR pro texty dané délky. Pro účely výpočtu byly použity referenční hodnoty z korpusu <a href='https://wiki.korpus.cz/doku.php/cnk:intercorp:verze11'>InterCorp v11</a>, resp. jeho beletristické části. Více možností výpočtu zTTR je k dispozici v aplikaci <a href='https://www.korpus.cz/calc/?module=zTTR'>Calc</a>. Výpočet zTTR je v současnosti k dispozici pouze pro jazyky: cs, de, en, es, fr, nl, pl, pt.",
+      "en": "<b>zTTR (normalized TTR)</b> is an index of lexical richness based on comparing the observed value of TTR with referential values (cf. <a href='https://link.springer.com/article/10.1007/s11185-015-9151-8'>Cvrček, Chlumská 2015</a>): $$zTTR = \\frac{TTR - Med_{TTR}}{IQR_{TTR}}$$ i.e. median and interquartile range of TTR values for texts of a given length. The referential values were taken from the fiction part of the <a href='https://wiki.korpus.cz/doku.php/en:cnk:intercorp:verze11'>InterCorp parallel corpus (version 11)</a>. More options for zTTR calculations are available within the <a href='https://www.korpus.cz/calc/?module=zTTR'>Calc</a> app. At the time being the zTTR values are available for selected languages only: cs, de, en, es, fr, nl, pl, pt."
     },
     {
       "dummy": "out MAMR",
@@ -212,8 +212,8 @@
     {"dummy": "literatura",    "cs": "Literatura", "en": "Literature"},
     {
       "dummy": "literaturatext",
-      "cs": "<ul><li>Čech, R. (2016). Tematická koncentrace textu v češtině. Praha: UFAL.<li>Čech, R., Kubát, M. (2017). Tematická koncentrace textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Čech, R., Kubát, M. (2017). Slovní bohatství textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Kubát, M., Matlach, V., Čech, R. (2014). QUITA – Quantitative Index Text Analyzer. Lüdenscheid: RAM.<li>Čech, R., Kubát, M. (2018) Morphological Richness of Text. In Fidler, M., Cvrček, V. (eds.). Taming the Corpus. From Inflection and Lexis to Interpretation. Springer, 63-77.<li>Čech, R., Popescu, I. I., Altmann, G. (2014). Metody kvantitativní analýzy (nejen) básnických textů. Olomouc: Univerzita Palackého v Olomouci.<li>Popescu, I. I. et al. (2009). Word frequency studies. Berlin / New York:  Mouton de Gruyter.</ul>",
-      "en": "<ul><li>Čech, R. (2016). Tematická koncentrace textu v češtině. Praha: UFAL.<li>Čech, R., Kubát, M. (2017). Tematická koncentrace textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Čech, R., Kubát, M. (2017). Slovní bohatství textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Kubát, M., Matlach, V., Čech, R. (2014). QUITA – Quantitative Index Text Analyzer. Lüdenscheid: RAM.<li>Čech, R., Kubát, M. (2018) Morphological Richness of Text. In Fidler, M., Cvrček, V. (eds.). Taming the Corpus. From Inflection and Lexis to Interpretation. Springer, 63-77.<li>Čech, R., Popescu, I. I., Altmann, G. (2014). Metody kvantitativní analýzy (nejen) básnických textů. Olomouc: Univerzita Palackého v Olomouci.<li>Popescu, I. I. et al. (2009). Word frequency studies. Berlin / New York:  Mouton de Gruyter.</ul>"
+      "cs": "<ul><li>Cvrček, V., Chlumská, L. (2015): Simplification in translated Czech: a new approach to type-token ratio. Russian linguistics 39/3, 309–325.<li>Čech, R. (2016). Tematická koncentrace textu v češtině. Praha: UFAL.<li>Čech, R., Kubát, M. (2017). Tematická koncentrace textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Čech, R., Kubát, M. (2017). Slovní bohatství textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Kubát, M., Matlach, V., Čech, R. (2014). QUITA – Quantitative Index Text Analyzer. Lüdenscheid: RAM.<li>Čech, R., Kubát, M. (2018) Morphological Richness of Text. In Fidler, M., Cvrček, V. (eds.). Taming the Corpus. From Inflection and Lexis to Interpretation. Springer, 63–77.<li>Čech, R., Popescu, I. I., Altmann, G. (2014). Metody kvantitativní analýzy (nejen) básnických textů. Olomouc: Univerzita Palackého v Olomouci.<li>Popescu, I. I. et al. (2009). Word frequency studies. Berlin / New York:  Mouton de Gruyter.</ul>",
+      "en": "<ul><li>Cvrček, V., Chlumská, L. (2015): Simplification in translated Czech: a new approach to type-token ratio. Russian linguistics 39/3, 309–325.<li>Čech, R. (2016). Tematická koncentrace textu v češtině. Praha: UFAL.<li>Čech, R., Kubát, M. (2017). Tematická koncentrace textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Čech, R., Kubát, M. (2017). Slovní bohatství textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Kubát, M., Matlach, V., Čech, R. (2014). QUITA – Quantitative Index Text Analyzer. Lüdenscheid: RAM.<li>Čech, R., Kubát, M. (2018) Morphological Richness of Text. In Fidler, M., Cvrček, V. (eds.). Taming the Corpus. From Inflection and Lexis to Interpretation. Springer, 63-77.<li>Čech, R., Popescu, I. I., Altmann, G. (2014). Metody kvantitativní analýzy (nejen) básnických textů. Olomouc: Univerzita Palackého v Olomouci.<li>Popescu, I. I. et al. (2009). Word frequency studies. Berlin / New York:  Mouton de Gruyter.</ul>"
     },
     
     
