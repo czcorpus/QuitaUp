@@ -26,7 +26,7 @@
     {"dummy": "ru",           "cs": "ruština", "en": "Russian"},
     {"dummy": "sk",           "cs": "slovenština", "en": "Slovak"},
     {"dummy": "sl",           "cs": "slovinština", "en": "Slovenian"},
-    {"dummy": "sv",           "cs": "švédština", "en": "Swidish"},
+    {"dummy": "sv",           "cs": "švédština", "en": "Swedish"},
     {"dummy": "uk",           "cs": "ukrajinština", "en": "Ukrainian"},
     {"dummy": "units",        "cs": "Jednotky", "en": "Units"},
     {"dummy": "word",         "cs": "Slovní tvary (case sensitive)", "en": "Word forms (case sensitive)"},
@@ -106,7 +106,7 @@
     {"dummy": "welcome hdln", "cs": "Vítejte!", "en": "Welcome!"},
     {
       "dummy": "info text",    
-      "cs": "Aplikace <i>QuitaUp</i> byla vytvořena za účelem poskytnout lingvistům i širšímu okruhu zájemců jednoduchý nástroj pro výpočet vybraných stylometrických indikátorů, které kvantitativně vyjadřují některé vlastnosti textu. Patří sem například výpočet slovního bohatství, tematické koncentrace či aktivity textu (viz dále). <br/>Vytvoření softwaru QuitaUp bylo podpořeno grantovým projektem SGS č. 02/FF/2020–2021 <i>Reflexe jazykové a jazykovědné problematiky v nelingvistických textech</i> (poskytovatel Ostravská univerzita, Filozofická fakulta) a projektem <i>Kreativita a adaptabilita jako předpoklad úspěchu Evropy v propojeném světě</i>, reg. č.:&nbsp;CZ.02.1.01/0.0/0.0/16_019/0000734, financovaného z Evropského fondu pro regionální rozvoj.", 
+      "cs": "Aplikace <i>QuitaUp</i> byla vytvořena za účelem poskytnout lingvistům i širšímu okruhu zájemců jednoduchý nástroj pro výpočet vybraných stylometrických indikátorů, které kvantitativně vyjadřují některé vlastnosti textu. Patří sem například výpočet slovního bohatství, tematické koncentrace či aktivity textu (viz dále). <br/>Vytvoření softwaru QuitaUp bylo podpořeno grantovým projektem SGS č. 02/FF/2020–2021 <i>Reflexe jazykové a jazykovědné problematiky v nelingvistických textech</i> (poskytovatel Ostravská univerzita, Filozofická fakulta) a projektem <i>Kreativita a adaptabilita jako předpoklad úspěchu Evropy v propojeném světě</i>, reg. č.:&nbsp;CZ.02.1.01/0.0/0.0/16_019/0000734, financovaným z Evropského fondu pro regionální rozvoj.", 
       "en": "The QuitaUp application was created in order to provide linguists and a wider range of users with a simple tool for calculating selected stylometric indicators that quantitatively express some properties of the text. This includes, for example, the calculation of vocabulary richness, thematic concentration or text activity (see below).<br/>The creation of the QuitaUp software was supported by the grant project SGS01/FF/2020–2021 <i>Reflexe jazykové a jazykovědné problematiky v nelingvistických textech</i> [Reflection of Language and Linguistic Issues in Non-Linguistic Texts], provided by the Faculty of Arts, the University of Ostrava and by the European Regional Development Fund project <i>Creativity and Adaptability as Conditions of the Success of Europe in an Interrelated World</i> (reg. no.: CZ.02.1.01/0.0/0.0/16_019/0000734)."
     },
     {"dummy": "manual",        "cs": "Manuál", "en": "Manual"},
