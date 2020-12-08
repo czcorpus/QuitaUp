@@ -7,7 +7,7 @@ library(stringr)
 
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
-appName <- "QuitaUp"
+appName <- "quitaup"
 appVer = c("12/2020" = "0.2")
 #logFile = "access.log"
 bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
