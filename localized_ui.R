@@ -76,7 +76,9 @@ localizedUI <- function(i18n) {
               h3(i18n$t("historie")),
               p(HTML(i18n$t("historietext"))),
               h3(i18n$t("literatura")),
-              p(HTML(i18n$t("literaturatext")))
+              p(HTML(i18n$t("literaturatext"))),
+              h3(i18n$t("howtocite")),
+              p(HTML(i18n$t("howtocitetext")))
               )
             )
           )
