@@ -149,6 +149,7 @@ shinyServer(function(input, output, session) {
     texts <- getOriginals()
     ids <- paste0("idx", texts$names)
     idstw <- paste0(ids, "tw")
+    idstwempty <- paste0(ids, "twempty")
     idsvert <- paste0(texts$names, ".vert")
     idsvals <- paste0(texts$names, ".vals")
     if (nrow(input$file) == 1) {
@@ -164,6 +165,7 @@ shinyServer(function(input, output, session) {
             ),
           column(width=6, 
             h3(i18n$t("twtext")),
+            output[[ idstwempty[1] ]] <- renderText({if (nrow(getTwTable(1)) == 0) { return(i18n$t("NoTW")) } }),
             output[[ idstw[1] ]] <- renderTable(getTwTable(1), spacing = "m", digits = 4),
             tags$div(i18n$t("linktoUDPOStext"),
                      tags$a(href="https://universaldependencies.org/u/pos/index.html", target="_blank",
@@ -174,6 +176,7 @@ shinyServer(function(input, output, session) {
     } else {
       lapply(1:length(texts$names), function(i) {
         output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
+        output[[ idstwempty[i] ]] <- renderText({if (nrow(getTwTable(i)) == 0) { return(i18n$t("NoTW")) } })
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
         output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], 
                                                   function(file) prepareDownload(file, i), contentType = "text/csv")
@@ -181,7 +184,7 @@ shinyServer(function(input, output, session) {
                                                   function(file) write.csv(getIdxTable(i), file, row.names = FALSE), 
                                                   contentType = "text/csv")
       })
-      panels <- mapply(function(name, id, idtw, idver,idin) tabPanel(name, 
+      panels <- mapply(function(name, id, idtw, idtwempty, idver, idin) tabPanel(name, 
                                                    fluidRow(
                                                      column(width=6,
                                                        h3(i18n$t("indextext")),
@@ -191,6 +194,7 @@ shinyServer(function(input, output, session) {
                                                        ),
                                                      column(width=6, 
                                                        h3(i18n$t("twtext")),
+                                                       textOutput(idtwempty),
                                                        tableOutput(idtw),
                                                        tags$div(i18n$t("linktoUDPOStext"),
                                                                 tags$a(href="https://universaldependencies.org/u/pos/index.html", 
@@ -198,7 +202,7 @@ shinyServer(function(input, output, session) {
                                                        )
                                                      )
                                                    ),
-                       texts$shortnames, ids, idstw, idsvert, idsvals,
+                       texts$shortnames, ids, idstw, idstwempty, idsvert, idsvals,
                        SIMPLIFY = FALSE, USE.NAMES = FALSE)
       do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,10)), panels) )
     }
