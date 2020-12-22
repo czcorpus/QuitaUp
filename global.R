@@ -8,7 +8,7 @@ library(stringr)
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
 appName <- "quitaup"
-appVer = c("12/2020" = "0.2")
+appVer = c("12/2020" = "0.2.1")
 #logFile = "access.log"
 bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
 #enableBookmarking(store = "url")
@@ -134,6 +134,8 @@ hpoint <- function(df, attr = "token") {
   attr <- as.name(attr)
   if (nrow(filter(fqlist, fq == adjrank)) > 0) {
     h <- filter(fqlist, fq == adjrank) %>% slice(1) %>% pull(fq)
+  } else if (max(fqlist$fq) < min(fqlist$adjrank)) {
+    h <- NA
   } else {
     f1 <- filter(fqlist, fq > adjrank) %>% arrange(fq) %>% select(-!!attr) %>% slice(1) %>% pull(fq)
     r1 <- filter(fqlist, fq > adjrank) %>% arrange(fq) %>% select(-!!attr) %>% slice(1) %>% pull(adjrank)
@@ -188,19 +190,28 @@ TW <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN",
   rankfqdist <- adjRanking(df, attr)
   f1 <- max(rankfqdist$fq)
   tcwords <- filter(rankfqdist, rank <= h, upos %in% autosemanticupos)
-  #browser()
   if (nrow(tcwords) > 0) {
-    tcwords$tw <- apply(tcwords, 1, function(x) 2 * ( (h - as.numeric(x["adjrank"]) )* as.numeric(x["fq"]) ) / ( h * (h-1) * f1 ) )
+    tcwords$tw <- apply(tcwords, 1, function(x) {
+      tweight <- 2 * ( (h - as.numeric(x["adjrank"]) )* as.numeric(x["fq"]) ) / ( h * (h-1) * f1 ) 
+      if (tweight < 0) { tweight <- 0 }
+      return(tweight)
+    }) 
+    tcwords <- filter(tcwords, tw > 0)
   }
   return(tcwords)
 }
 
 countTC <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN", "VERB", "PROPN")) {
-  TWlist <- TW(df, h, attr, autosemanticupos)
-  tc <- 0
-  if (nrow(TWlist) > 0) {
-    tc <- sum(TWlist$tw)
+  if (is.na(h)) {
+    tc <- NA
+  } else {
+    TWlist <- TW(df, h, attr, autosemanticupos)
+    tc <- 0
+    if (nrow(TWlist) > 0) {
+      tc <- sum(TWlist$tw)
+    }
   }
+  if (!is.na(tc) & tc < 0) { tc <- 0 }
   return(tc)
 }
   
