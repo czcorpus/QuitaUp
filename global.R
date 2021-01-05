@@ -197,6 +197,8 @@ TW <- function(df, h, attr = "token", autosemanticupos = c("ADJ", "ADV", "NOUN",
       return(tweight)
     }) 
     tcwords <- filter(tcwords, tw > 0)
+  } else {
+    tcwords <- data.frame()
   }
   return(tcwords)
 }

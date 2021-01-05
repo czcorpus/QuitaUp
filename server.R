@@ -221,7 +221,7 @@ shinyServer(function(input, output, session) {
                  vertical, hp, SIMPLIFY = FALSE)
     stc <- mapply(function (x, y) TW(x, h = 2*y, attr = hptc_attr),
                   vertical, hp, SIMPLIFY = FALSE)
-    if (nrow(tc[[nText]]) == 0) {
+    if (nrow(tc[[nText]]) == 0 & nrow(stc[[nText]]) > 0) {
       tmp <- stc[[nText]] 
       tmp$tw = NA
       tc[[nText]] <- tmp
