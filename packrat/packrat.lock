@@ -625,8 +625,8 @@ Requires: htmltools, shiny
 
 Package: shinyCNC
 Source: CNCRAN
-Version: 0.1.2
-Hash: 2cc7a7f508942ea43cb51783c54ddf25
+Version: 0.1.4
+Hash: a4b6eff4c2a07776c70e5f2ee080742d
 Requires: httr, jsonlite, shiny
 
 Package: shinybusy
