@@ -8,7 +8,7 @@ library(stringr)
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
 appName <- "quitaup"
-appVer = c("12/2020" = "0.2.2")
+appVer = c("1/2021" = "0.2.3")
 #logFile = "access.log"
 bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
 #enableBookmarking(store = "url")
