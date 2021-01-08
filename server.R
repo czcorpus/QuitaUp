@@ -174,9 +174,9 @@ shinyServer(function(input, output, session) {
         )
       )
     } else {
-      lapply(1:length(texts$names), function(i) {
+      lapply(1:nrow(input$file), function(i) {
         output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
-        output[[ idstwempty[i] ]] <- renderText({if (nrow(getTwTable(i)) == 0) { return(i18n$t("NoTW")) } })
+        output[[ idstwempty[i] ]] <- renderText({ if (nrow(getTwTable(i)) == 0) { return(i18n$t("NoTW")) } })
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
         output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], 
                                                   function(file) prepareDownload(file, i), contentType = "text/csv")
@@ -214,37 +214,40 @@ shinyServer(function(input, output, session) {
   }
   
   getTwTable <- function(nText) {
-    #data.frame(a = rep(1, nText), b = rep(20, nText), c = rep(300, nText))
     vertical <- adjVertical()
-    hp <- sapply(vertical, function (x) hpoint(x, attr = hptc_attr))
-    tc <- mapply(function (x, y) TW(x, h = y, attr = hptc_attr),
-                 vertical, hp, SIMPLIFY = FALSE)
-    stc <- mapply(function (x, y) TW(x, h = 2*y, attr = hptc_attr),
-                  vertical, hp, SIMPLIFY = FALSE)
-    if (nrow(tc[[nText]]) == 0 & nrow(stc[[nText]]) > 0) {
-      tmp <- stc[[nText]] 
-      tmp$tw = NA
-      tc[[nText]] <- tmp
-    }
-    if (nrow(stc[[nText]]) > 0) {
-      twtable <- full_join(
-        select(tc[[nText]], 1, upos, tw),
-        select(stc[[nText]], 1, upos, tw),
-        by = c(hptc_attr, "upos"),
-        suffix = c(".1hp", ".2hp")
-      )
-      colnames(twtable) <- sapply(colnames(twtable), i18n$t)
-    } else {
-     twtable <- data.frame() 
+    twtable <- data.frame() 
+    if (nText <= length(vertical)) {
+      hp <- sapply(vertical, function (x) hpoint(x, attr = hptc_attr))
+      tc <- mapply(function (x, y) TW(x, h = y, attr = hptc_attr),
+                   vertical, hp, SIMPLIFY = FALSE)
+      stc <- mapply(function (x, y) TW(x, h = 2*y, attr = hptc_attr),
+                    vertical, hp, SIMPLIFY = FALSE)
+      if (nrow(tc[[nText]]) == 0 & nrow(stc[[nText]]) > 0) {
+        tmp <- stc[[nText]] 
+        tmp$tw = NA
+        tc[[nText]] <- tmp
+      }
+      if (nrow(stc[[nText]]) > 0) {
+        twtable <- full_join(
+          select(tc[[nText]], 1, upos, tw),
+          select(stc[[nText]], 1, upos, tw),
+          by = c(hptc_attr, "upos"),
+          suffix = c(".1hp", ".2hp")
+        )
+        colnames(twtable) <- sapply(colnames(twtable), i18n$t)
+      }
     }
     return(twtable)
   }
   
   getIdxTable <- function(nText) {
     results <- getIndices()
-    resultsTable <- results[[nText]]
-    resultsTable$idx <- sapply(resultsTable$idx, i18n$t)
-    colnames(resultsTable) <- sapply(colnames(resultsTable), i18n$t)
+    resultsTable <-  data.frame()
+    if(nText <= length(results)) {
+      resultsTable <- results[[nText]]
+      resultsTable$idx <- sapply(resultsTable$idx, i18n$t)
+      colnames(resultsTable) <- sapply(colnames(resultsTable), i18n$t)
+    }
     return(resultsTable)
   }
   
