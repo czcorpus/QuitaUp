@@ -217,8 +217,14 @@
       "en": "<ul><li>Cvrček, V., Chlumská, L. (2015): Simplification in translated Czech: a new approach to type-token ratio. Russian linguistics 39/3, 309–325.<li>Čech, R. (2016). Tematická koncentrace textu v češtině. Praha: UFAL.<li>Čech, R., Kubát, M. (2017). Tematická koncentrace textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Čech, R., Kubát, M. (2017). Slovní bohatství textu. In Karlík, P., Nekula, M., Pleskalová, J. (eds.). Nový encyklopedický slovník češtiny. Praha: Nakladatelství Lidové noviny.<li>Kubát, M., Matlach, V., Čech, R. (2014). QUITA – Quantitative Index Text Analyzer. Lüdenscheid: RAM.<li>Čech, R., Kubát, M. (2018) Morphological Richness of Text. In Fidler, M., Cvrček, V. (eds.). Taming the Corpus. From Inflection and Lexis to Interpretation. Springer, 63-77.<li>Čech, R., Popescu, I. I., Altmann, G. (2014). Metody kvantitativní analýzy (nejen) básnických textů. Olomouc: Univerzita Palackého v Olomouci.<li>Popescu, I. I. et al. (2009). Word frequency studies. Berlin / New York:  Mouton de Gruyter.</ul>"
     },
     {"dummy": "howtocite",    "cs": "Jak citovat QuitaUp", "en": "How to cite QuiteUp"},
-    {"dummy": "howtocitetext","cs": "Cvrček, V. – Čech, R. – Kubát, M. (2020): <i>QuitaUp – nástroj pro kvantitativní stylometrickou analýzu</i>. Czech National Corpus and University of Ostrava. Dostupný z WWW: <https://korpus.cz/quitaup/>", "en": "Cvrček, V. – Čech, R. – Kubát, M. (2020): <i>QuitaUp – a tool for quantitative stylometric analysis</i>. Czech National Corpus and University of Ostrava. Available on WWW: <https://korpus.cz/quitaup/>"},
+    {"dummy": "howtocitetext","cs": "Cvrček, V. – Čech, R. – Kubát, M. (2020): <i>QuitaUp – nástroj pro kvantitativní stylometrickou analýzu</i>. Czech National Corpus and University of Ostrava. Dostupný z WWW: &lt;https://korpus.cz/quitaup/&gt;", "en": "Cvrček, V. – Čech, R. – Kubát, M. (2020): <i>QuitaUp – a tool for quantitative stylometric analysis</i>. Czech National Corpus and University of Ostrava. Available on WWW: &lt;https://korpus.cz/quitaup/&gt;"},
     
+    
+    {
+      "dummy": "logolink",
+      "cs": "Logolink_OP_VVV_hor_barva_cz.jpg",
+      "en": "logolink_OP_VVV_hor_barva_eng.jpg"
+    },
     
     {"dummy": "cnc",          "cs": "Český národní korpus", "en": "Czech National Corpus"},
     {"dummy": "kcjffou",      "cs": "Katedra českého jazyka, FF Ostravské univerzity", "en": "Department of Czech Language, FA University of Ostrava"},

@@ -51,6 +51,8 @@ localizedUI <- function(i18n) {
             tabPanel(i18n$t("about"), value = "about",
               h3(i18n$t("welcome hdln")),
               HTML(i18n$t("info text")),
+              br(),
+              img(src = i18n$t("logolink"), alt="ESIF logolink", width="780", height="173"),
               h3(i18n$t("manual")),
               h4(i18n$t("vlozenitextu")),
               HTML(i18n$t("vlozenitextutext")),
