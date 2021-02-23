@@ -180,17 +180,18 @@ shinyServer(function(input, output, session) {
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
         output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], 
                                                   function(file) prepareDownload(file, i), contentType = "text/csv")
-        output[[ idsvals[i] ]] <- downloadHandler(idsvals[i], 
-                                                  function(file) write.csv(getIdxTable(i), file, row.names = FALSE), 
-                                                  contentType = "text/csv")
+        #output[[ idsvals[i] ]] <- downloadHandler(idsvals[i], 
+        #                                          function(file) write.csv(getIdxTable(i), file, row.names = FALSE), 
+        #                                          contentType = "text/csv")
       })
-      panels <- mapply(function(name, id, idtw, idtwempty, idver, idin) tabPanel(name, 
+      panels <- mapply(function(name, id, idtw, idtwempty, idver#, idin
+                                ) tabPanel(name, 
                                                    fluidRow(
                                                      column(width=6,
                                                        h3(i18n$t("indextext")),
                                                        tableOutput(id),
-                                                       downloadButton(idver, label = i18n$t("vertikala")),
-                                                       downloadButton(idin, label = i18n$t("indexydwld"))
+                                                       #downloadButton(idver, label = paste0(i18n$t("vertikala"), " (", name, ")")) #,
+                                                       #downloadButton(idin, label = i18n$t("indexydwld"))
                                                        ),
                                                      column(width=6, 
                                                        h3(i18n$t("twtext")),
@@ -198,11 +199,12 @@ shinyServer(function(input, output, session) {
                                                        tableOutput(idtw),
                                                        tags$div(i18n$t("linktoUDPOStext"),
                                                                 tags$a(href="https://universaldependencies.org/u/pos/index.html", 
-                                                                       i18n$t("linktoUDPOS")), class="note")
+                                                                       i18n$t("linktoUDPOS")), class="note"),
+                                                       downloadButton(idver, label = paste0(i18n$t("vertikala"), " (", name, ")"))
                                                        )
                                                      )
                                                    ),
-                       texts$shortnames, ids, idstw, idstwempty, idsvert, idsvals,
+                       texts$shortnames, ids, idstw, idstwempty, idsvert, #idsvals,
                        SIMPLIFY = FALSE, USE.NAMES = FALSE)
       do.call(navlistPanel, c(list(id = "textSelectorPanelIndices", well=F, widths=c(2,10)), panels) )
     }
@@ -212,6 +214,24 @@ shinyServer(function(input, output, session) {
     vertical <- adjVertical()
     write.csv(vertical[[nText]], file, row.names = FALSE)
   }
+  
+  output$allindices <- downloadHandler(
+    filename = function() {
+      paste0("QuitaUp-all-texts-indices.csv")
+    }, 
+    content = function(file) {
+      req(input$file, input$previewType)
+      texts <- getOriginals()
+      ids <- texts$shortnames
+      all <- data.frame()
+      for (i in 1:nrow(input$file)) {
+        all <- bind_rows(
+          all,
+          getIdxTable(i) %>% rename(Value = Hondota) %>% mutate(Text = ids[i])
+        )
+      }
+      write.csv(all, file)
+  })
   
   getTwTable <- function(nText) {
     vertical <- adjVertical()

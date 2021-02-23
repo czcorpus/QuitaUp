@@ -46,7 +46,8 @@ localizedUI <- function(i18n) {
                 ),
               ),
             tabPanel(i18n$t("indices"), value = "indices",
-              uiOutput("textPanelsIndices")
+              uiOutput("textPanelsIndices"),
+              downloadButton("allindices", i18n$t("indexydwld"))
               ),
             tabPanel(i18n$t("about"), value = "about",
               h3(i18n$t("welcome hdln")),

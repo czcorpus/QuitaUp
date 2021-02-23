@@ -96,7 +96,7 @@
     {"dummy": "NoTW",         "cs": "V textu nejsou žádná tematická slova.", "en": "There are no thematic words in the text."},
     {"dummy": "linktoUDPOStext",  "cs": "Zkratky slovních druhů jsou k dispozici v rámci", "en": "For POS tags see"},
     {"dummy": "linktoUDPOS",  "cs": "dokumentace UD", "en": "UD documentation"},
-    {"dummy": "vertikala",    "cs": "Vertikála (.csv)", "en": "Vertical format (.csv)"},
+    {"dummy": "vertikala",    "cs": "Vertikála", "en": "Vertical format"},
     {"dummy": "indexydwld",   "cs": "Výsledky (.csv)", "en": "Results (.csv)"},
     
     {"dummy": "vertprogress", "cs": "Provádím morfologickou analýzu", "en": "Performing morfological tagging"},
