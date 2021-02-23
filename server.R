@@ -157,11 +157,11 @@ shinyServer(function(input, output, session) {
         fluidRow(
           column(width=6, 
             h3(i18n$t("indextext")),
-            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3),
-            output[[ idsvert[1] ]] <- downloadHandler(idsvert[1], function(file) prepareDownload(file, 1), 
-                                                      contentType = "text/csv", outputArgs = list(label = i18n$t("vertikala"))),
-            output[[ idsvals[1] ]] <- downloadHandler(idsvals[1], function(file) write.csv(getIdxTable(1), file, row.names = FALSE), 
-                                                      contentType = "text/csv", outputArgs = list(label = i18n$t("indexydwld")))
+            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3) #,
+            #output[[ idsvert[1] ]] <- downloadHandler(idsvert[1], function(file) prepareDownload(file, 1), 
+            #                                          contentType = "text/csv", outputArgs = list(label = i18n$t("vertikala"))) #,
+            #output[[ idsvals[1] ]] <- downloadHandler(idsvals[1], function(file) write.csv(getIdxTable(1), file, row.names = FALSE), 
+            #                                          contentType = "text/csv", outputArgs = list(label = i18n$t("indexydwld")))
             ),
           column(width=6, 
             h3(i18n$t("twtext")),
@@ -169,7 +169,9 @@ shinyServer(function(input, output, session) {
             output[[ idstw[1] ]] <- renderTable(getTwTable(1), spacing = "m", digits = 4),
             tags$div(i18n$t("linktoUDPOStext"),
                      tags$a(href="https://universaldependencies.org/u/pos/index.html", target="_blank",
-                            i18n$t("linktoUDPOS")), class="note")
+                            i18n$t("linktoUDPOS")), class="note"),
+            output[[ idsvert[1] ]] <- downloadHandler(idsvert[1], function(file) prepareDownload(file, 1), 
+                                                      contentType = "text/csv", outputArgs = list(label = i18n$t("vertikala")))
             )
         )
       )
@@ -189,7 +191,7 @@ shinyServer(function(input, output, session) {
                                                    fluidRow(
                                                      column(width=6,
                                                        h3(i18n$t("indextext")),
-                                                       tableOutput(id),
+                                                       tableOutput(id)#,
                                                        #downloadButton(idver, label = paste0(i18n$t("vertikala"), " (", name, ")")) #,
                                                        #downloadButton(idin, label = i18n$t("indexydwld"))
                                                        ),
@@ -227,7 +229,7 @@ shinyServer(function(input, output, session) {
       for (i in 1:nrow(input$file)) {
         all <- bind_rows(
           all,
-          getIdxTable(i) %>% rename(Value = Hondota) %>% mutate(Text = ids[i])
+          getIdxTable(i) %>% rename(Value = Hodnota) %>% mutate(Text = ids[i])
         )
       }
       write.csv(all, file)
