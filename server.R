@@ -157,7 +157,10 @@ shinyServer(function(input, output, session) {
         fluidRow(
           column(width=6, 
             h3(i18n$t("indextext")),
-            output[[ ids[1] ]] <- renderTable(getIdxTable(1), spacing = "m", digits = 3) #,
+            output[[ ids[1] ]] <- DT::renderDataTable({ 
+              DT::datatable(getIdxTable(1), rownames = FALSE, filter = "none", selection="none",
+                            options = list(dom = 't', pageLength = 20))
+            })
             #output[[ idsvert[1] ]] <- downloadHandler(idsvert[1], function(file) prepareDownload(file, 1), 
             #                                          contentType = "text/csv", outputArgs = list(label = i18n$t("vertikala"))) #,
             #output[[ idsvals[1] ]] <- downloadHandler(idsvals[1], function(file) write.csv(getIdxTable(1), file, row.names = FALSE), 
@@ -177,7 +180,11 @@ shinyServer(function(input, output, session) {
       )
     } else {
       lapply(1:nrow(input$file), function(i) {
-        output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
+        #output[[ ids[i] ]] <- renderTable(getIdxTable(i), spacing = "m", digits = 3)
+        output[[ ids[i] ]] <- DT::renderDataTable({ 
+          DT::datatable(getIdxTable(i), rownames = FALSE, filter = "none", selection="none",
+                        options = list(dom = 't', pageLength = 20)) 
+        })
         output[[ idstwempty[i] ]] <- renderText({ if (nrow(getTwTable(i)) == 0) { return(i18n$t("NoTW")) } })
         output[[ idstw[i] ]] <- renderTable(getTwTable(i), spacing = "m", digits = 4)
         output[[ idsvert[i] ]] <- downloadHandler(idsvert[i], 
@@ -191,7 +198,7 @@ shinyServer(function(input, output, session) {
                                                    fluidRow(
                                                      column(width=6,
                                                        h3(i18n$t("indextext")),
-                                                       tableOutput(id)#,
+                                                       DT::dataTableOutput(id)#,
                                                        #downloadButton(idver, label = paste0(i18n$t("vertikala"), " (", name, ")")) #,
                                                        #downloadButton(idin, label = i18n$t("indexydwld"))
                                                        ),
@@ -306,7 +313,7 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, types, "types")
     #ttr
     ttr <- sapply(results, function (x) x[ x$idx == "types", ]$val / x[ x$idx == "tokens", ]$val)
-    results <- addIndex(results, ttr, "ttr")
+    results <- addIndex(results, ttr, "ttr", 3)
     #hpoint
     # form + upos? rank or adjRank?
     hp <- sapply(vertical, function (x) hpoint(x, attr = hptc_attr))
@@ -316,43 +323,43 @@ shinyServer(function(input, output, session) {
     results <- addIndex(results, hap, "hapax")
     # hapax-token ratio
     hl <- sapply(results, function (x) x[ x$idx == "hapax", ]$val / x[ x$idx == "tokens", ]$val)
-    results <- addIndex(results, hl, "hl")
+    results <- addIndex(results, hl, "hl", 3)
     # entropy
     entro <- sapply(vertical, function (x) countEntropy(x, attr = "form"))
-    results <- addIndex(results, entro[1,], "entropy")
+    results <- addIndex(results, entro[1,], "entropy", 3)
     #results <- addIndex(results, entro[2,], "varH")
     #VD - verb distances
     # specific verbTag for each language?
     vd <- sapply(vertical, function (x) verbDistance(x))
-    results <- addIndex(results, vd, "vdist")
+    results <- addIndex(results, vd, "vdist", 3)
     # activity and descriptivity
     # specific adjTag for each language?
     q <- sapply(vertical, function (x) countActivity(x, verbTag = c("VERB")))
-    results <- addIndex(results, q, "activity")
-    results <- addIndex(results, 1-q, "descriptivity")
+    results <- addIndex(results, q, "activity", 3)
+    results <- addIndex(results, 1-q, "descriptivity", 3)
     # average token length
     # what is a token and what is a character? language specific?
     atl <- sapply(vertical, function (x) countATL(x, attr = "form"))
-    results <- addIndex(results, atl, "atl")
+    results <- addIndex(results, atl, "atl", 3)
     # TC
     # definition of autosemantics
     tc <- mapply(function (x, y) countTC(x, h = y, attr = hptc_attr),
                  vertical, hp)
-    results <- addIndex(results, tc, "tc")
+    results <- addIndex(results, tc, "tc", 4)
     # Secondary TC
     stc <- mapply(function (x, y) countTC(x, h = 2*y, attr = hptc_attr),
                   vertical, hp)
-    results <- addIndex(results, stc, "stc")
+    results <- addIndex(results, stc, "stc", 4)
     # MATTR
     # size of a windown L?
     ma <- sapply(vertical, function (x) mattr(x, attr = "form", L = 100))
-    results <- addIndex(results, ma, "mattr")
+    results <- addIndex(results, ma, "mattr", 3)
     ma5 <- sapply(vertical, function (x) mattr(x, attr = "form", L = 500))
-    results <- addIndex(results, ma5, "mattr5")
+    results <- addIndex(results, ma5, "mattr5", 3)
     # zTTR
     if (!exists("koeficienty")) { load("data/zTTR-coeffs_2019-08-07.RData") }
     zttr <- sapply(vertical, function (x) countzttr(x, koeficienty, lang = input$langsel, att = input$unit, att_vert = "form"))
-    results <- addIndex(results, zttr, "zttr")
+    results <- addIndex(results, zttr, "zttr", 3)
     # MAMR
     if (input$unit == "lc") {
       ma.wf <- ma
@@ -372,8 +379,8 @@ shinyServer(function(input, output, session) {
     }
     mamr <- ma.wf - ma.l
     mamr5 <- ma5.wf - ma5.l
-    results <- addIndex(results, mamr, "mamr")
-    results <- addIndex(results, mamr5, "mamr5")
+    results <- addIndex(results, mamr, "mamr", 4)
+    results <- addIndex(results, mamr5, "mamr5", 4)
     #browser()
     return(results)
   })

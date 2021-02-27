@@ -8,7 +8,7 @@ library(stringr)
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
 appName <- "quitaup"
-appVer = c("2/2021" = "0.2.4")
+appVer = c("2/2021" = "0.2.5")
 #logFile = "access.log"
 bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
 #enableBookmarking(store = "url")
@@ -106,11 +106,11 @@ retokenizeUDpipe <- function(df) {
 
 # ======
 
-addIndex <- function(mylist, myvector, myname) {
+addIndex <- function(mylist, myvector, myname, ndigits = 0) {
   for (n in 1:length(mylist)) {
     mylist[[n]] <- bind_rows(
       mylist[[n]],
-      data.frame("idx" = myname, "val" = myvector[n], stringsAsFactors = F)
+      data.frame("idx" = myname, "val" = round(myvector[n], digits = ndigits), stringsAsFactors = F)
     )
   }
   return(mylist)
