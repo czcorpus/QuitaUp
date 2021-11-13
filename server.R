@@ -236,7 +236,7 @@ shinyServer(function(input, output, session) {
       for (i in 1:nrow(input$file)) {
         all <- bind_rows(
           all,
-          getIdxTable(i) %>% rename(Value = Hodnota) %>% mutate(Text = ids[i])
+          getIdxTable(i) %>% rename(Value = 2) %>% mutate(Text = ids[i])
         )
       }
       write.csv(all, file)
