@@ -74,7 +74,7 @@ shinyServer(function(input, output, session) {
     #   vert <- split(udout, f = udout$doc_id)
     # }
     #vert <- split(udout, f = udout$doc_id) # changes the order of files
-    vert <- data.table:::split.data.table(as.data.table(udout), by = "doc_id", sorted = F)
+    vert <- data.table:::split.data.table(data.table:::as.data.table(udout), by = "doc_id", sorted = F)
     #shinybusy::remove_modal_spinner()
     shinybusy::remove_modal_gif()
     #timestamp()
