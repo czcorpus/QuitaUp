@@ -8,7 +8,7 @@ library(stringr)
 
 httr::set_config(httr::config(http_version = 0)) # problem s nginex
 appName <- "quitaup"
-appVer = c("2/2021" = "0.2.5")
+appVer = c("2/2022" = "0.2.6")
 #logFile = "access.log"
 bugReportUrl <- "https://podpora.korpus.cz/projects/quitaup"
 #enableBookmarking(store = "url")
@@ -225,8 +225,8 @@ mattr <- function(df, attr = "token", L = 100) {
   N <- length(tokens)
   if (N > L) {
     types <- 0
-    for(i in 1:(N-L)) {
-      vi <- length(base::unique(tokens[i:(i+L)]))
+    for(i in 1:(N-L+1)) {
+      vi <- length(base::unique(tokens[i:(i+L-1)]))
       types <- types + vi
     }
     mattr <- types / (L * (N - L + 1))
